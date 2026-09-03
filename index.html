@@ -6,7 +6,11 @@
 <title>Safe Ride QR</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
   font-family:Arial,Helvetica,sans-serif;
@@ -72,7 +76,8 @@ label{
   font-size:14px;
 }
 
-input,select{
+input,
+select{
   width:100%;
   padding:14px;
   border-radius:12px;
@@ -83,7 +88,8 @@ input,select{
   font-size:15px;
 }
 
-input:focus,select:focus{
+input:focus,
+select:focus{
   border-color:#43d9ff;
 }
 
@@ -102,6 +108,7 @@ button{
 
 button:disabled{
   opacity:.6;
+  cursor:not-allowed;
 }
 
 .call{
@@ -155,13 +162,20 @@ button:disabled{
 }
 
 .hidden{
-  display:none;
+  display:none !important;
 }
 
 .loading{
   text-align:center;
   padding:30px 10px;
   color:#bcd0e8;
+}
+
+.status{
+  text-align:center;
+  margin-top:12px;
+  color:#aebbd0;
+  font-size:13px;
 }
 </style>
 </head>
@@ -173,57 +187,140 @@ button:disabled{
   <div class="logo">🚗</div>
 
   <h1>SAFE RIDE QR</h1>
-  <div class="sub">Vehicle Safety & Emergency Contact</div>
 
+  <div class="sub">
+    Vehicle Safety & Emergency Contact
+  </div>
+
+
+  <!-- LOADING -->
   <div id="loading" class="card loading">
     🔄 Checking QR status...
   </div>
 
+
   <!-- ACTIVATION FORM -->
   <div id="activationCard" class="card hidden">
 
-    <span class="badge">NEW QR ACTIVATION</span>
+    <span class="badge">
+      NEW QR ACTIVATION
+    </span>
 
     <form id="activationForm">
 
       <label>QR ID</label>
-      <input id="qrId" name="qr_id" readonly>
+
+      <input
+        id="qrId"
+        name="qr_id"
+        readonly
+      >
+
 
       <label>Owner Name</label>
-      <input name="owner_name" required placeholder="Enter owner name">
+
+      <input
+        name="owner_name"
+        required
+        placeholder="Enter owner name"
+      >
+
 
       <label>Vehicle Model</label>
-      <input name="vehicle_model" required placeholder="Example: Honda City">
+
+      <input
+        name="vehicle_model"
+        required
+        placeholder="Example: Honda City"
+      >
+
 
       <label>Vehicle Number</label>
-      <input name="vehicle_number" required placeholder="Example: MH12AB1234">
+
+      <input
+        name="vehicle_number"
+        required
+        placeholder="Example: MH12AB1234"
+      >
+
 
       <label>Owner Contact Number</label>
-      <input name="owner_phone" type="tel" required placeholder="Enter owner phone">
+
+      <input
+        name="owner_phone"
+        type="tel"
+        required
+        placeholder="Enter owner phone"
+      >
+
 
       <label>Emergency Contact Number</label>
-      <input name="emergency_phone" type="tel" required placeholder="Enter emergency number">
+
+      <input
+        name="emergency_phone"
+        type="tel"
+        required
+        placeholder="Enter emergency number"
+      >
+
 
       <label>Vehicle Type</label>
-      <select name="vehicle_type" required>
-        <option value="">Select vehicle type</option>
-        <option>Car</option>
-        <option>Bike</option>
-        <option>Scooter</option>
-        <option>Auto</option>
-        <option>Truck</option>
-        <option>Bus</option>
-        <option>Other</option>
+
+      <select
+        name="vehicle_type"
+        required
+      >
+        <option value="">
+          Select vehicle type
+        </option>
+
+        <option value="Car">
+          Car
+        </option>
+
+        <option value="Bike">
+          Bike
+        </option>
+
+        <option value="Scooter">
+          Scooter
+        </option>
+
+        <option value="Auto">
+          Auto
+        </option>
+
+        <option value="Truck">
+          Truck
+        </option>
+
+        <option value="Bus">
+          Bus
+        </option>
+
+        <option value="Other">
+          Other
+        </option>
       </select>
 
-      <button id="activateBtn" type="submit">
+
+      <button
+        id="activateBtn"
+        type="submit"
+      >
         ✅ ACTIVATE QR
       </button>
 
-      <div id="formError" class="error"></div>
+
+      <div
+        id="formError"
+        class="error"
+      ></div>
 
     </form>
+
   </div>
+
 
   <!-- ACTIVATED PROFILE -->
   <div id="profileCard" class="card hidden">
@@ -232,44 +329,66 @@ button:disabled{
       ✅ QR ACTIVATED
     </div>
 
-    <span class="badge">SAFE RIDE VEHICLE PROFILE</span>
+    <span class="badge">
+      SAFE RIDE VEHICLE PROFILE
+    </span>
+
 
     <div class="info">
       <b>QR ID</b>
       <span id="showQr"></span>
     </div>
 
+
     <div class="info">
       <b>OWNER NAME</b>
       <span id="showOwner"></span>
     </div>
+
 
     <div class="info">
       <b>VEHICLE MODEL</b>
       <span id="showModel"></span>
     </div>
 
+
     <div class="info">
       <b>VEHICLE NUMBER</b>
       <span id="showNumber"></span>
     </div>
+
 
     <div class="info">
       <b>VEHICLE TYPE</b>
       <span id="showType"></span>
     </div>
 
-    <a id="ownerCall" class="call owner">
+
+    <a
+      id="ownerCall"
+      class="call owner"
+      href="#"
+    >
       📞 CALL OWNER
     </a>
 
-    <a id="emergencyCall" class="call emergency">
+
+    <a
+      id="emergencyCall"
+      class="call emergency"
+      href="#"
+    >
       🚨 EMERGENCY CALL
     </a>
 
   </div>
 
-  <div id="pageError" class="card error hidden"></div>
+
+  <!-- PAGE ERROR -->
+  <div
+    id="pageError"
+    class="card error hidden"
+  ></div>
 
 </div>
 
@@ -277,43 +396,113 @@ button:disabled{
 <!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <script>
 
-const SUPABASE_URL = "https://kzzbinbvtzrglhbkwbtv.supabase.co";
+/* =========================
+   SUPABASE CONFIG
+========================= */
 
-const SUPABASE_KEY = "sb_publishable_yxmdNnf4zehNaL-J1dv-CA_Imzdt6Aw";
+const SUPABASE_URL =
+  "https://kzzbinbvtzrglhbkwbtv.supabase.co";
 
-const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-
-const params = new URLSearchParams(window.location.search);
-
-const qrId = (params.get("id") || "").toUpperCase().trim();
+const SUPABASE_KEY =
+  "sb_publishable_yxmdNnf4zehNaL-J1dv-CA_Imzdt6Aw";
 
 
-const loading = document.getElementById("loading");
-const activationCard = document.getElementById("activationCard");
-const profileCard = document.getElementById("profileCard");
-const pageError = document.getElementById("pageError");
-const qrInput = document.getElementById("qrId");
+const supabase =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
-function showError(message){
+/* =========================
+   READ QR ID FROM URL
+========================= */
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+
+const qrId =
+  (params.get("id") || "")
+    .toUpperCase()
+    .trim();
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const loading =
+  document.getElementById("loading");
+
+const activationCard =
+  document.getElementById("activationCard");
+
+const profileCard =
+  document.getElementById("profileCard");
+
+const pageError =
+  document.getElementById("pageError");
+
+const qrInput =
+  document.getElementById("qrId");
+
+const activationForm =
+  document.getElementById("activationForm");
+
+const activateBtn =
+  document.getElementById("activateBtn");
+
+const formError =
+  document.getElementById("formError");
+
+
+/* =========================
+   HIDE LOADING
+========================= */
+
+function hideLoading(){
 
   loading.classList.add("hidden");
 
+}
+
+
+/* =========================
+   SHOW PAGE ERROR
+========================= */
+
+function showError(message){
+
+  hideLoading();
+
+  activationCard.classList.add("hidden");
+
+  profileCard.classList.add("hidden");
+
   pageError.textContent = message;
+
   pageError.classList.remove("hidden");
 
 }
 
 
+/* =========================
+   SHOW ACTIVATION FORM
+========================= */
+
 function showActivation(){
 
-  loading.classList.add("hidden");
+  hideLoading();
+
+  pageError.classList.add("hidden");
+
+  profileCard.classList.add("hidden");
 
   qrInput.value = qrId;
 
@@ -322,31 +511,72 @@ function showActivation(){
 }
 
 
+/* =========================
+   SHOW VEHICLE PROFILE
+========================= */
+
 function showProfile(vehicle){
 
-  loading.classList.add("hidden");
+  hideLoading();
+
+  pageError.classList.add("hidden");
+
+  activationCard.classList.add("hidden");
+
 
   document.getElementById("showQr").textContent =
     vehicle.qr_id || qrId;
 
+
   document.getElementById("showOwner").textContent =
     vehicle.owner_name || "Not available";
+
 
   document.getElementById("showModel").textContent =
     vehicle.vehicle_model || "Not available";
 
+
   document.getElementById("showNumber").textContent =
     vehicle.vehicle_number || "Not available";
+
 
   document.getElementById("showType").textContent =
     vehicle.vehicle_type || "Not available";
 
 
-  document.getElementById("ownerCall").href =
-    "tel:" + vehicle.owner_phone;
+  const ownerCall =
+    document.getElementById("ownerCall");
 
-  document.getElementById("emergencyCall").href =
-    "tel:" + vehicle.emergency_phone;
+  const emergencyCall =
+    document.getElementById("emergencyCall");
+
+
+  if(vehicle.owner_phone){
+
+    ownerCall.href =
+      "tel:" + vehicle.owner_phone;
+
+    ownerCall.classList.remove("hidden");
+
+  }else{
+
+    ownerCall.classList.add("hidden");
+
+  }
+
+
+  if(vehicle.emergency_phone){
+
+    emergencyCall.href =
+      "tel:" + vehicle.emergency_phone;
+
+    emergencyCall.classList.remove("hidden");
+
+  }else{
+
+    emergencyCall.classList.add("hidden");
+
+  }
 
 
   profileCard.classList.remove("hidden");
@@ -354,156 +584,337 @@ function showProfile(vehicle){
 }
 
 
+/* =========================
+   CHECK QR
+========================= */
+
 async function checkQR(){
 
-  if(!qrId){
+  try{
 
-    showError(
-      "QR ID missing. Please scan a valid Safe Ride QR."
+    /* QR ID CHECK */
+
+    if(!qrId){
+
+      showError(
+        "QR ID missing. Please scan a valid Safe Ride QR."
+      );
+
+      return;
+
+    }
+
+
+    /* SHOW QR ID IN FORM */
+
+    qrInput.value = qrId;
+
+
+    /* SUPABASE QUERY */
+
+    const result =
+      await supabase
+        .from("Vehicles")
+        .select("*")
+        .eq("qr_id", qrId)
+        .limit(1)
+        .maybeSingle();
+
+
+    const data =
+      result.data;
+
+    const error =
+      result.error;
+
+
+    /* DATABASE ERROR */
+
+    if(error){
+
+      console.error(
+        "QR CHECK ERROR:",
+        error
+      );
+
+      showError(
+        "QR check failed. Please try again."
+      );
+
+      return;
+
+    }
+
+
+    /* QR NOT FOUND */
+
+    if(!data){
+
+      showError(
+        "This QR ID is not registered."
+      );
+
+      return;
+
+    }
+
+
+    /* QR FOUND */
+
+    if(data.Activated === true){
+
+      showProfile(data);
+
+    }else{
+
+      showActivation();
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "UNEXPECTED ERROR:",
+      error
     );
 
-    return;
-  }
-
-
-  const { data, error } = await supabase
-    .from("Vehicles")
-    .select("*")
-    .eq("qr_id", qrId)
-    .maybeSingle();
-
-
-  if(error){
-
-    console.error(error);
-
     showError(
-      "QR check failed. Please try again."
+      "Unable to check QR status. Please try again."
     );
-
-    return;
-  }
-
-
-  if(!data){
-
-    showError(
-      "This QR ID is not registered."
-    );
-
-    return;
-  }
-
-
-  if(data.Activated === true){
-
-    showProfile(data);
-
-  }else{
-
-    showActivation();
 
   }
 
 }
 
 
-document
-.getElementById("activationForm")
-.addEventListener("submit", async function(e){
+/* =========================
+   ACTIVATION FORM
+========================= */
 
-  e.preventDefault();
+activationForm.addEventListener(
+  "submit",
+  async function(e){
 
-
-  const button =
-    document.getElementById("activateBtn");
-
-  const errorBox =
-    document.getElementById("formError");
+    e.preventDefault();
 
 
-  errorBox.textContent = "";
+    /* RESET ERROR */
 
-  button.disabled = true;
-
-  button.textContent = "⏳ ACTIVATING...";
+    formError.textContent = "";
 
 
-  const formData = new FormData(this);
+    /* CHECK QR */
+
+    if(!qrId){
+
+      formError.textContent =
+        "QR ID is missing.";
+
+      return;
+
+    }
 
 
-  const updateData = {
+    /* DISABLE BUTTON */
 
-    owner_name:
-      formData.get("owner_name").trim(),
+    activateBtn.disabled = true;
 
-    vehicle_model:
-      formData.get("vehicle_model").trim(),
-
-    vehicle_number:
-      formData.get("vehicle_number").trim(),
-
-    owner_phone:
-      formData.get("owner_phone").trim(),
-
-    emergency_phone:
-      formData.get("emergency_phone").trim(),
-
-    vehicle_type:
-      formData.get("vehicle_type"),
-
-    Activated: true
-
-  };
+    activateBtn.textContent =
+      "⏳ ACTIVATING...";
 
 
-  const { data, error } = await supabase
-    .from("Vehicles")
-    .update(updateData)
-    .eq("qr_id", qrId)
-    .eq("Activated", false)
-    .select()
-    .maybeSingle();
+    try{
+
+      const formData =
+        new FormData(this);
 
 
-  if(error){
+      /* FORM VALUES */
 
-    console.error(error);
+      const ownerName =
+        (formData.get("owner_name") || "")
+          .toString()
+          .trim();
 
-    errorBox.textContent =
-      "Activation failed. Please try again.";
 
-    button.disabled = false;
+      const vehicleModel =
+        (formData.get("vehicle_model") || "")
+          .toString()
+          .trim();
 
-    button.textContent = "✅ ACTIVATE QR";
 
-    return;
+      const vehicleNumber =
+        (formData.get("vehicle_number") || "")
+          .toString()
+          .trim();
+
+
+      const ownerPhone =
+        (formData.get("owner_phone") || "")
+          .toString()
+          .trim();
+
+
+      const emergencyPhone =
+        (formData.get("emergency_phone") || "")
+          .toString()
+          .trim();
+
+
+      const vehicleType =
+        (formData.get("vehicle_type") || "")
+          .toString()
+          .trim();
+
+
+      /* VALIDATION */
+
+      if(
+        !ownerName ||
+        !vehicleModel ||
+        !vehicleNumber ||
+        !ownerPhone ||
+        !emergencyPhone ||
+        !vehicleType
+      ){
+
+        formError.textContent =
+          "Please fill all required fields.";
+
+        activateBtn.disabled = false;
+
+        activateBtn.textContent =
+          "✅ ACTIVATE QR";
+
+        return;
+
+      }
+
+
+      /* UPDATE DATA */
+
+      const updateData = {
+
+        owner_name:
+          ownerName,
+
+        vehicle_model:
+          vehicleModel,
+
+        vehicle_number:
+          vehicleNumber,
+
+        owner_phone:
+          ownerPhone,
+
+        emergency_phone:
+          emergencyPhone,
+
+        vehicle_type:
+          vehicleType,
+
+        Activated:
+          true
+
+      };
+
+
+      /* ACTIVATE QR */
+
+      const result =
+        await supabase
+          .from("Vehicles")
+          .update(updateData)
+          .eq("qr_id", qrId)
+          .eq("Activated", false)
+          .select()
+          .limit(1)
+          .maybeSingle();
+
+
+      const data =
+        result.data;
+
+      const error =
+        result.error;
+
+
+      /* UPDATE ERROR */
+
+      if(error){
+
+        console.error(
+          "ACTIVATION ERROR:",
+          error
+        );
+
+        formError.textContent =
+          "Activation failed. Please try again.";
+
+        activateBtn.disabled = false;
+
+        activateBtn.textContent =
+          "✅ ACTIVATE QR";
+
+        return;
+
+      }
+
+
+      /* NO ROW UPDATED */
+
+      if(!data){
+
+        formError.textContent =
+          "This QR may already be activated or is not available.";
+
+        activateBtn.disabled = false;
+
+        activateBtn.textContent =
+          "✅ ACTIVATE QR";
+
+        return;
+
+      }
+
+
+      /* SUCCESS */
+
+      activationForm.reset();
+
+      activationCard.classList.add("hidden");
+
+      showProfile(data);
+
+
+    }catch(error){
+
+      console.error(
+        "UNEXPECTED ACTIVATION ERROR:",
+        error
+      );
+
+      formError.textContent =
+        "Activation failed. Please try again.";
+
+      activateBtn.disabled = false;
+
+      activateBtn.textContent =
+        "✅ ACTIVATE QR";
+
+    }
+
   }
+);
 
 
-  if(!data){
-
-    errorBox.textContent =
-      "This QR may already be activated.";
-
-    button.disabled = false;
-
-    button.textContent = "✅ ACTIVATE QR";
-
-    return;
-  }
-
-
-  activationCard.classList.add("hidden");
-
-  showProfile(data);
-
-});
-
+/* =========================
+   START
+========================= */
 
 checkQR();
 
 </script>
 
 </body>
-</html>
+                             </html>
