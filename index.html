@@ -3,152 +3,507 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Safe Ride QR — Activate</title>
+<title>Safe Ride QR</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+
 body{
   font-family:Arial,Helvetica,sans-serif;
   min-height:100vh;
   background:linear-gradient(145deg,#07111f,#0b1830 55%,#101f3b);
-  color:#fff;padding:24px 16px;
+  color:#fff;
+  padding:24px 16px;
 }
-.wrap{max-width:520px;margin:auto}
+
+.wrap{
+  max-width:520px;
+  margin:auto;
+}
+
 .logo{
-  width:64px;height:64px;border-radius:18px;
-  display:grid;place-items:center;margin:8px auto 14px;
-  background:#fff;color:#081426;font-size:30px;
-  box-shadow:0 12px 35px rgba(0,0,0,.35)
+  width:64px;
+  height:64px;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  margin:8px auto 14px;
+  background:#fff;
+  color:#081426;
+  font-size:30px;
+  box-shadow:0 12px 35px rgba(0,0,0,.35);
 }
-h1{text-align:center;font-size:28px}
-.sub{text-align:center;color:#aebbd0;margin:8px 0 22px}
+
+h1{
+  text-align:center;
+  font-size:28px;
+}
+
+.sub{
+  text-align:center;
+  color:#aebbd0;
+  margin:8px 0 22px;
+}
+
 .card{
   background:rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.13);
   backdrop-filter:blur(12px);
-  border-radius:22px;padding:22px;
-  box-shadow:0 18px 50px rgba(0,0,0,.25)
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 18px 50px rgba(0,0,0,.25);
 }
+
 .badge{
-  display:inline-block;background:#17345e;color:#bcd8ff;
-  border-radius:999px;padding:7px 11px;font-size:12px;
-  font-weight:bold;margin-bottom:18px
+  display:inline-block;
+  background:#17345e;
+  color:#bcd8ff;
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:18px;
 }
-label{display:block;font-size:13px;font-weight:bold;color:#d9e4f3;margin:14px 0 7px}
+
+label{
+  display:block;
+  margin:14px 0 7px;
+  color:#dce7f7;
+  font-size:14px;
+}
+
 input,select{
-  width:100%;padding:14px 13px;border-radius:12px;
-  border:1px solid #304463;background:#09172a;color:#fff;
-  outline:none;font-size:15px
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.15);
+  background:#0b1930;
+  color:#fff;
+  outline:none;
+  font-size:15px;
 }
-input:focus,select:focus{border-color:#79aefc;box-shadow:0 0 0 3px rgba(121,174,252,.12)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+input:focus,select:focus{
+  border-color:#43d9ff;
+}
+
 button{
-  width:100%;margin-top:20px;padding:15px;border:0;border-radius:13px;
-  background:#fff;color:#071426;font-weight:800;font-size:16px;cursor:pointer
+  width:100%;
+  margin-top:20px;
+  padding:15px;
+  border:0;
+  border-radius:13px;
+  background:linear-gradient(90deg,#18c8ff,#4dff9a);
+  color:#06111e;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
-button:hover{transform:translateY(-1px)}
-.note{font-size:12px;color:#9fb0c8;line-height:1.5;margin-top:14px;text-align:center}
-.success{display:none;text-align:center;padding:10px 0}
-.success .check{font-size:52px;margin-bottom:8px}
-.success h2{margin-bottom:8px}
-.success p{color:#b9c8dc;line-height:1.5}
-#again{background:transparent;color:#fff;border:1px solid #405675}
-footer{text-align:center;color:#71839d;font-size:11px;margin-top:18px}
-@media(max-width:430px){.grid{grid-template-columns:1fr}}
+
+button:disabled{
+  opacity:.6;
+}
+
+.call{
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  margin-top:14px;
+  padding:15px;
+  border-radius:13px;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.owner{
+  background:#18c8ff;
+  color:#06111e;
+}
+
+.emergency{
+  background:#ff4d5e;
+  color:white;
+}
+
+.success{
+  text-align:center;
+  padding:12px;
+  color:#7dffb2;
+  font-weight:bold;
+}
+
+.info{
+  margin:12px 0;
+  padding:14px;
+  border-radius:12px;
+  background:rgba(255,255,255,.06);
+}
+
+.info b{
+  display:block;
+  color:#9fb2cc;
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+.error{
+  color:#ff8f9a;
+  text-align:center;
+  margin-top:15px;
+  line-height:1.5;
+}
+
+.hidden{
+  display:none;
+}
+
+.loading{
+  text-align:center;
+  padding:30px 10px;
+  color:#bcd0e8;
+}
 </style>
 </head>
-<body>
-<div class="wrap">
-  <div class="logo">🛡️</div>
-  <h1>Safe Ride QR</h1>
-  <p class="sub">Activate your vehicle safety QR</p>
 
-  <div class="card" id="formCard">
-    <span class="badge">QR ACTIVATION</span>
+<body>
+
+<div class="wrap">
+
+  <div class="logo">🚗</div>
+
+  <h1>SAFE RIDE QR</h1>
+  <div class="sub">Vehicle Safety & Emergency Contact</div>
+
+  <div id="loading" class="card loading">
+    🔄 Checking QR status...
+  </div>
+
+  <!-- ACTIVATION FORM -->
+  <div id="activationCard" class="card hidden">
+
+    <span class="badge">NEW QR ACTIVATION</span>
 
     <form id="activationForm">
-      <label for="qrId">QR ID</label>
-      <input id="qrId" name="qrId" placeholder="Example: SRQ001" required>
 
-      <div class="grid">
-        <div>
-          <label for="owner">Owner Name</label>
-          <input id="owner" name="owner" placeholder="Your name" required>
-        </div>
-        <div>
-          <label for="vehicle">Vehicle Model</label>
-          <input id="vehicle" name="vehicle" placeholder="e.g. Swift" required>
-        </div>
-      </div>
+      <label>QR ID</label>
+      <input id="qrId" name="qr_id" readonly>
 
-      <label for="number">Vehicle Number</label>
-      <input id="number" name="number" placeholder="e.g. TS09AB1234" required>
+      <label>Owner Name</label>
+      <input name="owner_name" required placeholder="Enter owner name">
 
-      <label for="phone">Owner Contact Number</label>
-      <input id="phone" name="phone" type="tel" inputmode="numeric"
-             placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+      <label>Vehicle Model</label>
+      <input name="vehicle_model" required placeholder="Example: Honda City">
 
-      <label for="emergency">Emergency Contact Number</label>
-      <input id="emergency" name="emergency" type="tel" inputmode="numeric"
-             placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+      <label>Vehicle Number</label>
+      <input name="vehicle_number" required placeholder="Example: MH12AB1234">
 
-      <label for="type">Vehicle Type</label>
-      <select id="type" name="type" required>
+      <label>Owner Contact Number</label>
+      <input name="owner_phone" type="tel" required placeholder="Enter owner phone">
+
+      <label>Emergency Contact Number</label>
+      <input name="emergency_phone" type="tel" required placeholder="Enter emergency number">
+
+      <label>Vehicle Type</label>
+      <select name="vehicle_type" required>
         <option value="">Select vehicle type</option>
         <option>Car</option>
         <option>Bike</option>
         <option>Scooter</option>
         <option>Auto</option>
+        <option>Truck</option>
+        <option>Bus</option>
         <option>Other</option>
       </select>
 
-      <button type="submit">✅ Activate QR</button>
-      <p class="note">Your information will be used for the Safe Ride QR profile. Do not enter sensitive information you don't want displayed.</p>
+      <button id="activateBtn" type="submit">
+        ✅ ACTIVATE QR
+      </button>
+
+      <div id="formError" class="error"></div>
+
     </form>
   </div>
 
-  <div class="card success" id="successCard">
-    <div class="check">✅</div>
-    <h2>QR Activated!</h2>
-    <p>Your Safe Ride QR has been activated successfully on this device.</p>
-    <p style="margin-top:10px"><strong>QR ID:</strong> <span id="showId"></span></p>
-    <button id="again">Activate another QR</button>
+  <!-- ACTIVATED PROFILE -->
+  <div id="profileCard" class="card hidden">
+
+    <div class="success">
+      ✅ QR ACTIVATED
+    </div>
+
+    <span class="badge">SAFE RIDE VEHICLE PROFILE</span>
+
+    <div class="info">
+      <b>QR ID</b>
+      <span id="showQr"></span>
+    </div>
+
+    <div class="info">
+      <b>OWNER NAME</b>
+      <span id="showOwner"></span>
+    </div>
+
+    <div class="info">
+      <b>VEHICLE MODEL</b>
+      <span id="showModel"></span>
+    </div>
+
+    <div class="info">
+      <b>VEHICLE NUMBER</b>
+      <span id="showNumber"></span>
+    </div>
+
+    <div class="info">
+      <b>VEHICLE TYPE</b>
+      <span id="showType"></span>
+    </div>
+
+    <a id="ownerCall" class="call owner">
+      📞 CALL OWNER
+    </a>
+
+    <a id="emergencyCall" class="call emergency">
+      🚨 EMERGENCY CALL
+    </a>
+
   </div>
 
-  <footer>Safe Ride QR • Vehicle Safety System</footer>
+  <div id="pageError" class="card error hidden"></div>
+
 </div>
 
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-const form = document.getElementById("activationForm");
-const formCard = document.getElementById("formCard");
-const successCard = document.getElementById("successCard");
-const qrIdInput = document.getElementById("qrId");
-const showId = document.getElementById("showId");
+
+const SUPABASE_URL = "https://kzzbinbvtzrglhbkwbtv.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_yxmdNnf4zehNaL-J1dv-CA_Imzdt6Aw";
+
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
 
 const params = new URLSearchParams(window.location.search);
-const qrFromUrl = params.get("id");
-if (qrFromUrl) qrIdInput.value = qrFromUrl.toUpperCase();
 
-form.addEventListener("submit", function(e){
+const qrId = (params.get("id") || "").toUpperCase().trim();
+
+
+const loading = document.getElementById("loading");
+const activationCard = document.getElementById("activationCard");
+const profileCard = document.getElementById("profileCard");
+const pageError = document.getElementById("pageError");
+const qrInput = document.getElementById("qrId");
+
+
+function showError(message){
+
+  loading.classList.add("hidden");
+
+  pageError.textContent = message;
+  pageError.classList.remove("hidden");
+
+}
+
+
+function showActivation(){
+
+  loading.classList.add("hidden");
+
+  qrInput.value = qrId;
+
+  activationCard.classList.remove("hidden");
+
+}
+
+
+function showProfile(vehicle){
+
+  loading.classList.add("hidden");
+
+  document.getElementById("showQr").textContent =
+    vehicle.qr_id || qrId;
+
+  document.getElementById("showOwner").textContent =
+    vehicle.owner_name || "Not available";
+
+  document.getElementById("showModel").textContent =
+    vehicle.vehicle_model || "Not available";
+
+  document.getElementById("showNumber").textContent =
+    vehicle.vehicle_number || "Not available";
+
+  document.getElementById("showType").textContent =
+    vehicle.vehicle_type || "Not available";
+
+
+  document.getElementById("ownerCall").href =
+    "tel:" + vehicle.owner_phone;
+
+  document.getElementById("emergencyCall").href =
+    "tel:" + vehicle.emergency_phone;
+
+
+  profileCard.classList.remove("hidden");
+
+}
+
+
+async function checkQR(){
+
+  if(!qrId){
+
+    showError(
+      "QR ID missing. Please scan a valid Safe Ride QR."
+    );
+
+    return;
+  }
+
+
+  const { data, error } = await supabase
+    .from("Vehicles")
+    .select("*")
+    .eq("qr_id", qrId)
+    .maybeSingle();
+
+
+  if(error){
+
+    console.error(error);
+
+    showError(
+      "QR check failed. Please try again."
+    );
+
+    return;
+  }
+
+
+  if(!data){
+
+    showError(
+      "This QR ID is not registered."
+    );
+
+    return;
+  }
+
+
+  if(data.Activated === true){
+
+    showProfile(data);
+
+  }else{
+
+    showActivation();
+
+  }
+
+}
+
+
+document
+.getElementById("activationForm")
+.addEventListener("submit", async function(e){
+
   e.preventDefault();
 
-  // Prototype only: data is stored locally in this browser.
-  const data = Object.fromEntries(new FormData(form).entries());
-  data.qrId = data.qrId.toUpperCase().trim();
-  data.activatedAt = new Date().toISOString();
 
-  localStorage.setItem("safeRideQR_" + data.qrId, JSON.stringify(data));
+  const button =
+    document.getElementById("activateBtn");
 
-  showId.textContent = data.qrId;
-  formCard.style.display = "none";
-  successCard.style.display = "block";
+  const errorBox =
+    document.getElementById("formError");
+
+
+  errorBox.textContent = "";
+
+  button.disabled = true;
+
+  button.textContent = "⏳ ACTIVATING...";
+
+
+  const formData = new FormData(this);
+
+
+  const updateData = {
+
+    owner_name:
+      formData.get("owner_name").trim(),
+
+    vehicle_model:
+      formData.get("vehicle_model").trim(),
+
+    vehicle_number:
+      formData.get("vehicle_number").trim(),
+
+    owner_phone:
+      formData.get("owner_phone").trim(),
+
+    emergency_phone:
+      formData.get("emergency_phone").trim(),
+
+    vehicle_type:
+      formData.get("vehicle_type"),
+
+    Activated: true
+
+  };
+
+
+  const { data, error } = await supabase
+    .from("Vehicles")
+    .update(updateData)
+    .eq("qr_id", qrId)
+    .eq("Activated", false)
+    .select()
+    .maybeSingle();
+
+
+  if(error){
+
+    console.error(error);
+
+    errorBox.textContent =
+      "Activation failed. Please try again.";
+
+    button.disabled = false;
+
+    button.textContent = "✅ ACTIVATE QR";
+
+    return;
+  }
+
+
+  if(!data){
+
+    errorBox.textContent =
+      "This QR may already be activated.";
+
+    button.disabled = false;
+
+    button.textContent = "✅ ACTIVATE QR";
+
+    return;
+  }
+
+
+  activationCard.classList.add("hidden");
+
+  showProfile(data);
+
 });
 
-document.getElementById("again").addEventListener("click", function(){
-  successCard.style.display = "none";
-  formCard.style.display = "block";
-  form.reset();
-  if (qrFromUrl) qrIdInput.value = qrFromUrl.toUpperCase();
-});
+
+checkQR();
+
 </script>
+
 </body>
 </html>
