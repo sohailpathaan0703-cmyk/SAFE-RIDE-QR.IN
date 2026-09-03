@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Safe Ride QR</title>
+
+<title>SAFE RIDE QR</title>
 
 <style>
 *{
@@ -76,8 +77,7 @@ label{
   font-size:14px;
 }
 
-input,
-select{
+input,select{
   width:100%;
   padding:14px;
   border-radius:12px;
@@ -88,8 +88,7 @@ select{
   font-size:15px;
 }
 
-input:focus,
-select:focus{
+input:focus,select:focus{
   border-color:#43d9ff;
 }
 
@@ -108,7 +107,6 @@ button{
 
 button:disabled{
   opacity:.6;
-  cursor:not-allowed;
 }
 
 .call{
@@ -170,13 +168,6 @@ button:disabled{
   padding:30px 10px;
   color:#bcd0e8;
 }
-
-.status{
-  text-align:center;
-  margin-top:12px;
-  color:#aebbd0;
-  font-size:13px;
-}
 </style>
 </head>
 
@@ -194,12 +185,14 @@ button:disabled{
 
 
   <!-- LOADING -->
+
   <div id="loading" class="card loading">
     🔄 Checking QR status...
   </div>
 
 
-  <!-- ACTIVATION FORM -->
+  <!-- ACTIVATION -->
+
   <div id="activationCard" class="card hidden">
 
     <span class="badge">
@@ -266,10 +259,8 @@ button:disabled{
 
       <label>Vehicle Type</label>
 
-      <select
-        name="vehicle_type"
-        required
-      >
+      <select name="vehicle_type" required>
+
         <option value="">
           Select vehicle type
         </option>
@@ -301,6 +292,7 @@ button:disabled{
         <option value="Other">
           Other
         </option>
+
       </select>
 
 
@@ -322,7 +314,8 @@ button:disabled{
   </div>
 
 
-  <!-- ACTIVATED PROFILE -->
+  <!-- PROFILE -->
+
   <div id="profileCard" class="card hidden">
 
     <div class="success">
@@ -366,8 +359,7 @@ button:disabled{
 
     <a
       id="ownerCall"
-      class="call owner"
-      href="#"
+      class="call owner hidden"
     >
       📞 CALL OWNER
     </a>
@@ -375,8 +367,7 @@ button:disabled{
 
     <a
       id="emergencyCall"
-      class="call emergency"
-      href="#"
+      class="call emergency hidden"
     >
       🚨 EMERGENCY CALL
     </a>
@@ -384,7 +375,8 @@ button:disabled{
   </div>
 
 
-  <!-- PAGE ERROR -->
+  <!-- ERROR -->
+
   <div
     id="pageError"
     class="card error hidden"
@@ -393,44 +385,32 @@ button:disabled{
 </div>
 
 
-<!-- SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
 <script>
 
 /* =========================
-   SUPABASE CONFIG
+   SUPABASE SETTINGS
 ========================= */
 
 const SUPABASE_URL =
-  "https://kzzbinbvtzrglhbkwbtv.supabase.co";
+"https://kzzbinbvtzrglhbkwbtv.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_yxmdNnf4zehNaL-J1dv-CA_Imzdt6Aw";
-
-
-const supabase =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+"sb_publishable_yxmdNnf4zeHNaL-J1dv-CA_Imzdt6Aw";
 
 
 /* =========================
-   READ QR ID FROM URL
+   GET QR ID
 ========================= */
 
 const params =
-  new URLSearchParams(
-    window.location.search
-  );
-
+new URLSearchParams(
+  window.location.search
+);
 
 const qrId =
-  (params.get("id") || "")
-    .toUpperCase()
-    .trim();
+(params.get("id") || "")
+.toUpperCase()
+.trim();
 
 
 /* =========================
@@ -438,48 +418,28 @@ const qrId =
 ========================= */
 
 const loading =
-  document.getElementById("loading");
+document.getElementById("loading");
 
 const activationCard =
-  document.getElementById("activationCard");
+document.getElementById("activationCard");
 
 const profileCard =
-  document.getElementById("profileCard");
+document.getElementById("profileCard");
 
 const pageError =
-  document.getElementById("pageError");
+document.getElementById("pageError");
 
 const qrInput =
-  document.getElementById("qrId");
-
-const activationForm =
-  document.getElementById("activationForm");
-
-const activateBtn =
-  document.getElementById("activateBtn");
-
-const formError =
-  document.getElementById("formError");
+document.getElementById("qrId");
 
 
 /* =========================
-   HIDE LOADING
-========================= */
-
-function hideLoading(){
-
-  loading.classList.add("hidden");
-
-}
-
-
-/* =========================
-   SHOW PAGE ERROR
+   SHOW ERROR
 ========================= */
 
 function showError(message){
 
-  hideLoading();
+  loading.classList.add("hidden");
 
   activationCard.classList.add("hidden");
 
@@ -488,7 +448,6 @@ function showError(message){
   pageError.textContent = message;
 
   pageError.classList.remove("hidden");
-
 }
 
 
@@ -498,30 +457,27 @@ function showError(message){
 
 function showActivation(){
 
-  hideLoading();
+  loading.classList.add("hidden");
 
   pageError.classList.add("hidden");
-
-  profileCard.classList.add("hidden");
 
   qrInput.value = qrId;
 
   activationCard.classList.remove("hidden");
-
 }
 
 
 /* =========================
-   SHOW VEHICLE PROFILE
+   SHOW PROFILE
 ========================= */
 
 function showProfile(vehicle){
 
-  hideLoading();
-
-  pageError.classList.add("hidden");
+  loading.classList.add("hidden");
 
   activationCard.classList.add("hidden");
+
+  pageError.classList.add("hidden");
 
 
   document.getElementById("showQr").textContent =
@@ -558,10 +514,6 @@ function showProfile(vehicle){
 
     ownerCall.classList.remove("hidden");
 
-  }else{
-
-    ownerCall.classList.add("hidden");
-
   }
 
 
@@ -572,14 +524,101 @@ function showProfile(vehicle){
 
     emergencyCall.classList.remove("hidden");
 
-  }else{
-
-    emergencyCall.classList.add("hidden");
-
   }
 
 
   profileCard.classList.remove("hidden");
+}
+
+
+/* =========================
+   SUPABASE REQUEST
+========================= */
+
+async function supabaseRequest(
+  url,
+  options = {}
+){
+
+  const controller =
+    new AbortController();
+
+  const timeout =
+    setTimeout(
+      () => controller.abort(),
+      10000
+    );
+
+
+  try{
+
+    const response =
+      await fetch(
+        url,
+        {
+          ...options,
+
+          signal:
+            controller.signal,
+
+          headers:{
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + SUPABASE_KEY,
+
+            "Content-Type":
+              "application/json",
+
+            ...(options.headers || {})
+          }
+        }
+      );
+
+
+    const text =
+      await response.text();
+
+
+    let data = null;
+
+
+    if(text){
+
+      try{
+
+        data =
+          JSON.parse(text);
+
+      }catch(e){
+
+        data = text;
+
+      }
+
+    }
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP " +
+        response.status +
+        ": " +
+        text
+      );
+
+    }
+
+
+    return data;
+
+  }finally{
+
+    clearTimeout(timeout);
+
+  }
 
 }
 
@@ -590,80 +629,83 @@ function showProfile(vehicle){
 
 async function checkQR(){
 
+  /* NO QR */
+
+  if(!qrId){
+
+    showError(
+      "QR ID missing. Please scan a valid Safe Ride QR."
+    );
+
+    return;
+  }
+
+
   try{
 
-    /* QR ID CHECK */
+    /*
+      Get vehicle using QR ID.
+      We do NOT filter Activated here.
+      So both activated and non-activated rows work.
+    */
 
-    if(!qrId){
-
-      showError(
-        "QR ID missing. Please scan a valid Safe Ride QR."
-      );
-
-      return;
-
-    }
-
-
-    /* SHOW QR ID IN FORM */
-
-    qrInput.value = qrId;
-
-
-    /* SUPABASE QUERY */
-
-    const result =
-      await supabase
-        .from("Vehicles")
-        .select("*")
-        .eq("qr_id", qrId)
-        .limit(1)
-        .maybeSingle();
+    const url =
+      SUPABASE_URL +
+      "/rest/v1/Vehicles" +
+      "?select=*" +
+      "&qr_id=eq." +
+      encodeURIComponent(qrId) +
+      "&limit=1";
 
 
     const data =
-      result.data;
-
-    const error =
-      result.error;
+      await supabaseRequest(url);
 
 
-    /* DATABASE ERROR */
+    console.log(
+      "QR RESULT:",
+      data
+    );
 
-    if(error){
 
-      console.error(
-        "QR CHECK ERROR:",
-        error
-      );
+    if(!Array.isArray(data)){
 
       showError(
-        "QR check failed. Please try again."
+        "Invalid response from database."
       );
 
       return;
-
     }
 
 
-    /* QR NOT FOUND */
-
-    if(!data){
+    if(data.length === 0){
 
       showError(
         "This QR ID is not registered."
       );
 
       return;
-
     }
 
 
-    /* QR FOUND */
+    const vehicle =
+      data[0];
 
-    if(data.Activated === true){
 
-      showProfile(data);
+    /*
+      Support Activated / activated
+    */
+
+    const activated =
+      vehicle.Activated === true ||
+      vehicle.Activated === "true" ||
+      vehicle.activated === true ||
+      vehicle.activated === "true";
+
+
+    if(activated){
+
+      showProfile(vehicle);
 
     }else{
 
@@ -671,16 +713,29 @@ async function checkQR(){
 
     }
 
+
   }catch(error){
 
     console.error(
-      "UNEXPECTED ERROR:",
+      "QR ERROR:",
       error
     );
 
-    showError(
-      "Unable to check QR status. Please try again."
-    );
+
+    if(error.name === "AbortError"){
+
+      showError(
+        "Database connection timed out. Please try again."
+      );
+
+    }else{
+
+      showError(
+        "QR check failed: " +
+        error.message
+      );
+
+    }
 
   }
 
@@ -691,35 +746,33 @@ async function checkQR(){
    ACTIVATION FORM
 ========================= */
 
-activationForm.addEventListener(
+document
+.getElementById("activationForm")
+.addEventListener(
   "submit",
   async function(e){
 
     e.preventDefault();
 
 
-    /* RESET ERROR */
-
-    formError.textContent = "";
-
-
-    /* CHECK QR */
-
-    if(!qrId){
-
-      formError.textContent =
-        "QR ID is missing.";
-
-      return;
-
-    }
+    const button =
+      document.getElementById(
+        "activateBtn"
+      );
 
 
-    /* DISABLE BUTTON */
+    const errorBox =
+      document.getElementById(
+        "formError"
+      );
 
-    activateBtn.disabled = true;
 
-    activateBtn.textContent =
+    errorBox.textContent = "";
+
+
+    button.disabled = true;
+
+    button.textContent =
       "⏳ ACTIVATING...";
 
 
@@ -729,177 +782,113 @@ activationForm.addEventListener(
         new FormData(this);
 
 
-      /* FORM VALUES */
-
-      const ownerName =
-        (formData.get("owner_name") || "")
-          .toString()
-          .trim();
-
-
-      const vehicleModel =
-        (formData.get("vehicle_model") || "")
-          .toString()
-          .trim();
-
-
-      const vehicleNumber =
-        (formData.get("vehicle_number") || "")
-          .toString()
-          .trim();
-
-
-      const ownerPhone =
-        (formData.get("owner_phone") || "")
-          .toString()
-          .trim();
-
-
-      const emergencyPhone =
-        (formData.get("emergency_phone") || "")
-          .toString()
-          .trim();
-
-
-      const vehicleType =
-        (formData.get("vehicle_type") || "")
-          .toString()
-          .trim();
-
-
-      /* VALIDATION */
-
-      if(
-        !ownerName ||
-        !vehicleModel ||
-        !vehicleNumber ||
-        !ownerPhone ||
-        !emergencyPhone ||
-        !vehicleType
-      ){
-
-        formError.textContent =
-          "Please fill all required fields.";
-
-        activateBtn.disabled = false;
-
-        activateBtn.textContent =
-          "✅ ACTIVATE QR";
-
-        return;
-
-      }
-
-
-      /* UPDATE DATA */
-
       const updateData = {
 
         owner_name:
-          ownerName,
+          String(
+            formData.get("owner_name") || ""
+          ).trim(),
 
         vehicle_model:
-          vehicleModel,
+          String(
+            formData.get("vehicle_model") || ""
+          ).trim(),
 
         vehicle_number:
-          vehicleNumber,
+          String(
+            formData.get("vehicle_number") || ""
+          ).trim(),
 
         owner_phone:
-          ownerPhone,
+          String(
+            formData.get("owner_phone") || ""
+          ).trim(),
 
         emergency_phone:
-          emergencyPhone,
+          String(
+            formData.get("emergency_phone") || ""
+          ).trim(),
 
         vehicle_type:
-          vehicleType,
+          formData.get("vehicle_type"),
 
-        Activated:
-          true
+        Activated: true
 
       };
 
 
-      /* ACTIVATE QR */
+      /*
+        Update vehicle by QR ID
+      */
 
-      const result =
-        await supabase
-          .from("Vehicles")
-          .update(updateData)
-          .eq("qr_id", qrId)
-          .eq("Activated", false)
-          .select()
-          .limit(1)
-          .maybeSingle();
+      const url =
+        SUPABASE_URL +
+        "/rest/v1/Vehicles" +
+        "?qr_id=eq." +
+        encodeURIComponent(qrId);
 
 
       const data =
-        result.data;
+        await supabaseRequest(
+          url,
+          {
+            method:"PATCH",
 
-      const error =
-        result.error;
+            headers:{
+              "Prefer":
+                "return=representation"
+            },
 
-
-      /* UPDATE ERROR */
-
-      if(error){
-
-        console.error(
-          "ACTIVATION ERROR:",
-          error
+            body:
+              JSON.stringify(updateData)
+          }
         );
 
-        formError.textContent =
-          "Activation failed. Please try again.";
 
-        activateBtn.disabled = false;
-
-        activateBtn.textContent =
-          "✅ ACTIVATE QR";
-
-        return;
-
-      }
+      console.log(
+        "ACTIVATION RESULT:",
+        data
+      );
 
 
-      /* NO ROW UPDATED */
+      if(
+        !Array.isArray(data) ||
+        data.length === 0
+      ){
 
-      if(!data){
-
-        formError.textContent =
-          "This QR may already be activated or is not available.";
-
-        activateBtn.disabled = false;
-
-        activateBtn.textContent =
-          "✅ ACTIVATE QR";
-
-        return;
+        throw new Error(
+          "Vehicle was not updated. Check QR ID or Supabase permissions."
+        );
 
       }
 
 
-      /* SUCCESS */
+      activationCard.classList.add(
+        "hidden"
+      );
 
-      activationForm.reset();
 
-      activationCard.classList.add("hidden");
-
-      showProfile(data);
+      showProfile(
+        data[0]
+      );
 
 
     }catch(error){
 
       console.error(
-        "UNEXPECTED ACTIVATION ERROR:",
+        "ACTIVATION ERROR:",
         error
       );
 
-      formError.textContent =
-        "Activation failed. Please try again.";
 
-      activateBtn.disabled = false;
+      errorBox.textContent =
+        "Activation failed: " +
+        error.message;
 
-      activateBtn.textContent =
+
+      button.disabled = false;
+
+      button.textContent =
         "✅ ACTIVATE QR";
 
     }
@@ -912,9 +901,9 @@ activationForm.addEventListener(
    START
 ========================= */
 
-showError("TEST OK - JavaScript is working");
+checkQR();
 
 </script>
 
 </body>
-                             </html>
+</html>
