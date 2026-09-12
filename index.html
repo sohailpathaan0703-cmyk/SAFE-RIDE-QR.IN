@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Safe Ride QR</title>
+<title>SAFE RIDE QR</title>
 
 <style>
 *{
@@ -16,23 +15,18 @@
 
 body{
   background:#f4f7fb;
-  color:#172033;
+  color:#111827;
 }
 
 header{
-  background:#0b5ed7;
+  background:#111827;
   color:white;
   padding:18px;
   text-align:center;
 }
 
 header h1{
-  font-size:25px;
-}
-
-header p{
-  margin-top:5px;
-  opacity:.9;
+  font-size:26px;
 }
 
 .container{
@@ -43,23 +37,23 @@ header p{
 
 .card{
   background:white;
-  border-radius:18px;
+  border-radius:16px;
   padding:25px;
   box-shadow:0 5px 20px rgba(0,0,0,.08);
 }
 
 h2{
-  margin-bottom:20px;
-  color:#0b5ed7;
+  margin-bottom:15px;
 }
 
-h3{
-  margin:15px 0 8px;
+p{
+  margin:8px 0;
+  line-height:1.5;
 }
 
 label{
   display:block;
-  margin-top:14px;
+  margin-top:15px;
   margin-bottom:6px;
   font-weight:bold;
 }
@@ -67,78 +61,69 @@ label{
 input,select{
   width:100%;
   padding:13px;
-  border:1px solid #ccc;
-  border-radius:10px;
+  border:1px solid #d1d5db;
+  border-radius:9px;
   font-size:16px;
 }
 
 button{
   width:100%;
   padding:14px;
-  border:none;
+  margin-top:18px;
+  border:0;
   border-radius:10px;
-  margin-top:20px;
-  font-size:16px;
+  background:#111827;
+  color:white;
+  font-size:17px;
   font-weight:bold;
   cursor:pointer;
 }
 
-.primary{
-  background:#0b5ed7;
-  color:white;
+button.call{
+  background:#16a34a;
 }
 
-.owner{
-  background:#198754;
-  color:white;
-}
-
-.emergency{
-  background:#dc3545;
-  color:white;
-}
-
-.info{
-  background:#eef5ff;
-  padding:15px;
-  border-radius:10px;
-  margin-bottom:15px;
-}
-
-.row{
-  padding:12px 0;
-  border-bottom:1px solid #eee;
-}
-
-.row strong{
-  display:block;
-  color:#555;
-  font-size:14px;
-  margin-bottom:4px;
+button.emergency{
+  background:#dc2626;
 }
 
 .status{
   text-align:center;
-  padding:20px;
+  padding:25px;
   font-size:18px;
 }
 
 .error{
-  color:#dc3545;
-  background:#fff0f0;
-  padding:15px;
-  border-radius:10px;
+  color:#dc2626;
+  font-weight:bold;
 }
 
 .success{
-  color:#198754;
-  background:#edfff5;
+  color:#16a34a;
+  font-weight:bold;
+}
+
+.info{
+  background:#eef6ff;
   padding:15px;
   border-radius:10px;
+  margin:15px 0;
 }
 
 .hidden{
   display:none;
+}
+
+.profile-row{
+  padding:12px 0;
+  border-bottom:1px solid #eee;
+}
+
+.profile-row strong{
+  display:block;
+  color:#6b7280;
+  font-size:14px;
+  margin-bottom:3px;
 }
 </style>
 </head>
@@ -153,106 +138,89 @@ button{
 <div class="container">
 
   <!-- CHECKING -->
-  <div id="checking" class="card status">
+  <div id="loading" class="card status">
     Checking QR status...
   </div>
 
   <!-- ERROR -->
-  <div id="errorBox" class="card hidden">
+  <div id="errorBox" class="card status hidden">
     <div class="error" id="errorText"></div>
   </div>
 
-  <!-- ACTIVATION FORM -->
+  <!-- ACTIVATION -->
   <div id="activationBox" class="card hidden">
 
-    <h2>Activate Your QR</h2>
+    <h2>Activate Your Safe Ride QR</h2>
 
     <div class="info">
-      QR ID: <strong id="qrDisplay"></strong>
+      <b>QR ID:</b>
+      <span id="qrDisplay"></span>
     </div>
 
     <label>Owner Name</label>
     <input id="owner_name" type="text" placeholder="Enter owner name">
 
     <label>Vehicle Model</label>
-    <input id="vehicle_model" type="text" placeholder="Enter vehicle model">
+    <input id="vehicle_model" type="text" placeholder="Example: Honda Activa">
 
     <label>Vehicle Number</label>
-    <input id="vehicle_number" type="text" placeholder="Enter vehicle number">
+    <input id="vehicle_number" type="text" placeholder="Example: MH12AB1234">
+
+    <label>Owner Phone</label>
+    <input id="owner_phone" type="tel" placeholder="10 digit mobile number">
+
+    <label>Emergency Phone</label>
+    <input id="emergency_phone" type="tel" placeholder="Emergency contact number">
 
     <label>Vehicle Type</label>
     <select id="vehicle_type">
-      <option value="">Select vehicle type</option>
+      <option value="">Select Vehicle Type</option>
       <option value="Bike">Bike</option>
       <option value="Scooter">Scooter</option>
       <option value="Car">Car</option>
-      <option value="Auto">Auto</option>
       <option value="Other">Other</option>
     </select>
 
-    <label>Owner Phone</label>
-    <input id="owner_phone" type="tel" placeholder="Enter owner phone">
+    <button onclick="activateQR()">Activate QR</button>
 
-    <label>Emergency Phone</label>
-    <input id="emergency_phone" type="tel" placeholder="Enter emergency phone">
-
-    <button class="primary" onclick="activateQR()">
-      Activate QR
-    </button>
-
-    <div id="activationMessage"></div>
+    <div id="activationMessage" class="status hidden"></div>
 
   </div>
 
-  <!-- VEHICLE PROFILE -->
+  <!-- PROFILE -->
   <div id="profileBox" class="card hidden">
 
-    <h2>Vehicle Information</h2>
+    <h2>🚗 Safe Ride Vehicle</h2>
 
-    <div class="success">
-      ✓ QR Activated Successfully
+    <div class="success" style="margin-bottom:15px;">
+      ✓ QR Activated
     </div>
 
-    <div class="row">
-      <strong>QR ID</strong>
-      <span id="p_qr"></span>
-    </div>
-
-    <div class="row">
+    <div class="profile-row">
       <strong>Owner Name</strong>
       <span id="p_owner"></span>
     </div>
 
-    <div class="row">
+    <div class="profile-row">
       <strong>Vehicle Model</strong>
       <span id="p_model"></span>
     </div>
 
-    <div class="row">
+    <div class="profile-row">
       <strong>Vehicle Number</strong>
       <span id="p_number"></span>
     </div>
 
-    <div class="row">
+    <div class="profile-row">
       <strong>Vehicle Type</strong>
       <span id="p_type"></span>
     </div>
 
-    <div class="row">
-      <strong>Owner Phone</strong>
-      <span id="p_owner_phone"></span>
-    </div>
-
-    <div class="row">
-      <strong>Emergency Phone</strong>
-      <span id="p_emergency_phone"></span>
-    </div>
-
-    <button id="ownerCall" class="owner">
-      📞 Call Owner
+    <button class="call" id="ownerCall">
+      📞 Call Vehicle Owner
     </button>
 
-    <button id="emergencyCall" class="emergency">
+    <button class="emergency" id="emergencyCall">
       🚨 Call Emergency Contact
     </button>
 
@@ -262,309 +230,164 @@ button{
 
 <script>
 
-/* ==============================
-   SUPABASE SETTINGS
-================================ */
+const API_URL =
+"https://script.google.com/macros/s/AKfycbzLHzdUvfiBJIYN3hIykz_oZDi9mRdijn4dCIRotzbnfyNfxtc4uF7fsFrTzeoeefbBpw/exec";
 
-const SUPABASE_URL =
-"https://kzzbinbvtzrglhbkwbtv.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_yxmdNnf4zehNaL-J1dv-CA_Imzdt6Aw";
+let QR_ID = "";
 
 
-/* ==============================
-   QR ID
-================================ */
+/* GET QR ID FROM URL */
+function getQRId(){
 
-const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search);
 
-const qrId = params.get("id");
+  return params.get("id");
 
-
-/* ==============================
-   ELEMENTS
-================================ */
-
-const checking = document.getElementById("checking");
-const errorBox = document.getElementById("errorBox");
-const errorText = document.getElementById("errorText");
-const activationBox = document.getElementById("activationBox");
-const profileBox = document.getElementById("profileBox");
-
-document.getElementById("qrDisplay").textContent = qrId || "Not Found";
-
-
-/* ==============================
-   SUPABASE REQUEST
-================================ */
-
-async function supabaseRequest(url, options = {}) {
-
-  const response = await fetch(
-    SUPABASE_URL + url,
-    {
-      ...options,
-
-      headers:{
-        "apikey": SUPABASE_KEY,
-        "Content-Type":"application/json",
-        ...(options.headers || {})
-      }
-    }
-  );
-
-  const text = await response.text();
-
-  let data;
-
-  try{
-    data = text ? JSON.parse(text) : null;
-  }catch{
-    data = text;
-  }
-
-  if(!response.ok){
-    throw new Error(
-      "HTTP " + response.status + ": " +
-      (data?.message || data?.error || text || "Request failed")
-    );
-  }
-
-  return data;
 }
 
 
-/* ==============================
-   CHECK QR
-================================ */
+/* SHOW ERROR */
+function showError(message){
 
+  document.getElementById("loading").classList.add("hidden");
+
+  document.getElementById("activationBox").classList.add("hidden");
+
+  document.getElementById("profileBox").classList.add("hidden");
+
+  document.getElementById("errorBox").classList.remove("hidden");
+
+  document.getElementById("errorText").innerText = message;
+
+}
+
+
+/* CHECK QR */
 async function checkQR(){
 
-  if(!qrId){
+  QR_ID = getQRId();
 
-    checking.classList.add("hidden");
+  if(!QR_ID){
 
-    errorBox.classList.remove("hidden");
-
-    errorText.textContent =
-      "QR ID not found. Please scan a valid Safe Ride QR.";
+    showError("QR ID not found. Please scan a valid Safe Ride QR.");
 
     return;
   }
 
+  document.getElementById("qrDisplay").innerText = QR_ID;
+
   try{
 
-    const data = await supabaseRequest(
-      "/rest/v1/Vehicles" +
-      "?qr_id=eq." +
-      encodeURIComponent(qrId) +
-      "&select=*"
+    const response = await fetch(
+      API_URL + "?id=" + encodeURIComponent(QR_ID),
+      {
+        method:"GET",
+        cache:"no-store"
+      }
     );
 
-    if(!data || data.length === 0){
-
-      throw new Error(
-        "QR ID " + qrId + " was not found."
-      );
+    if(!response.ok){
+      throw new Error("HTTP " + response.status);
     }
 
-    const vehicle = data[0];
+    const result = await response.json();
 
-    checking.classList.add("hidden");
+    console.log("API RESULT:", result);
 
-    if(vehicle.Activated === true){
+    if(!result.success){
 
-      showProfile(vehicle);
+      showError(result.message || "QR ID not found.");
+
+      return;
+    }
+
+    const data = result.data;
+
+    document.getElementById("loading").classList.add("hidden");
+
+    /*
+      Google Sheet may return TRUE as boolean
+      or "TRUE" as text.
+    */
+
+    const activated =
+      data.activated === true ||
+      String(data.activated).toUpperCase() === "TRUE";
+
+    if(activated){
+
+      showProfile(data);
 
     }else{
 
-      activationBox.classList.remove("hidden");
+      document
+        .getElementById("activationBox")
+        .classList.remove("hidden");
 
     }
 
   }catch(error){
 
-    checking.classList.add("hidden");
+    console.error(error);
 
-    errorBox.classList.remove("hidden");
-
-    errorText.textContent =
-      "QR check failed: " + error.message;
-
-  }
-
-}
-
-
-/* ==============================
-   ACTIVATE QR
-================================ */
-
-async function activateQR(){
-
-  const ownerName =
-    document.getElementById("owner_name").value.trim();
-
-  const vehicleModel =
-    document.getElementById("vehicle_model").value.trim();
-
-  const vehicleNumber =
-    document.getElementById("vehicle_number").value.trim();
-
-  const vehicleType =
-    document.getElementById("vehicle_type").value;
-
-  const ownerPhone =
-    document.getElementById("owner_phone").value.trim();
-
-  const emergencyPhone =
-    document.getElementById("emergency_phone").value.trim();
-
-  const message =
-    document.getElementById("activationMessage");
-
-
-  if(
-    !ownerName ||
-    !vehicleModel ||
-    !vehicleNumber ||
-    !vehicleType ||
-    !ownerPhone ||
-    !emergencyPhone
-  ){
-
-    message.innerHTML =
-      '<div class="error">Please fill all fields.</div>';
-
-    return;
-  }
-
-
-  message.innerHTML =
-    '<div class="info">Activating QR...</div>';
-
-
-  try{
-
-    const result = await supabaseRequest(
-      "/rest/v1/Vehicles?qr_id=eq." +
-      encodeURIComponent(qrId),
-
-      {
-        method:"PATCH",
-
-        headers:{
-          "Prefer":"return=representation"
-        },
-
-        body:JSON.stringify({
-
-          Owner_name: ownerName,
-
-          Vehicle_model: vehicleModel,
-
-          Vehicle_number: vehicleNumber,
-
-          Owner_phone: ownerPhone,
-
-          Emergency_phone: emergencyPhone,
-
-          Vehicle_type: vehicleType,
-
-          Activated: true
-
-        })
-      }
+    showError(
+      "QR check failed: " + error.message
     );
 
-
-    if(!result || result.length === 0){
-
-      throw new Error(
-        "QR activation failed. No database row updated."
-      );
-
-    }
-
-
-    message.innerHTML =
-      '<div class="success">✓ QR Activated Successfully</div>';
-
-
-    setTimeout(function(){
-
-      showProfile(result[0]);
-
-    },800);
-
-
-  }catch(error){
-
-    message.innerHTML =
-      '<div class="error">' +
-      "Activation failed: " +
-      error.message +
-      "</div>";
-
   }
 
 }
 
 
-/* ==============================
-   SHOW PROFILE
-================================ */
+/* SHOW PROFILE */
+function showProfile(data){
 
-function showProfile(vehicle){
+  document
+    .getElementById("profileBox")
+    .classList.remove("hidden");
 
-  activationBox.classList.add("hidden");
+  document.getElementById("p_owner").innerText =
+    data.owner_name || "-";
 
-  profileBox.classList.remove("hidden");
+  document.getElementById("p_model").innerText =
+    data.vehicle_model || "-";
 
+  document.getElementById("p_number").innerText =
+    data.vehicle_number || "-";
 
-  document.getElementById("p_qr").textContent =
-    vehicle.qr_id || "";
+  document.getElementById("p_type").innerText =
+    data.vehicle_type || "-";
 
-  document.getElementById("p_owner").textContent =
-    vehicle.Owner_name || "";
-
-  document.getElementById("p_model").textContent =
-    vehicle.Vehicle_model || "";
-
-  document.getElementById("p_number").textContent =
-    vehicle.Vehicle_number || "";
-
-  document.getElementById("p_type").textContent =
-    vehicle.Vehicle_type || "";
-
-  document.getElementById("p_owner_phone").textContent =
-    vehicle.Owner_phone || "";
-
-  document.getElementById("p_emergency_phone").textContent =
-    vehicle.Emergency_phone || "";
-
+  const ownerPhone = data.owner_phone || "";
+  const emergencyPhone = data.emergency_phone || "";
 
   document.getElementById("ownerCall").onclick =
     function(){
 
-      if(vehicle.Owner_phone){
+      if(ownerPhone){
 
         window.location.href =
-          "tel:" + vehicle.Owner_phone;
+          "tel:" + ownerPhone;
+
+      }else{
+
+        alert("Owner phone number not available.");
 
       }
 
     };
 
-
   document.getElementById("emergencyCall").onclick =
     function(){
 
-      if(vehicle.Emergency_phone){
+      if(emergencyPhone){
 
         window.location.href =
-          "tel:" + vehicle.Emergency_phone;
+          "tel:" + emergencyPhone;
+
+      }else{
+
+        alert("Emergency phone number not available.");
 
       }
 
@@ -573,10 +396,127 @@ function showProfile(vehicle){
 }
 
 
-/* ==============================
-   START
-================================ */
+/* ACTIVATE QR */
+async function activateQR(){
 
+  const owner_name =
+    document.getElementById("owner_name").value.trim();
+
+  const vehicle_model =
+    document.getElementById("vehicle_model").value.trim();
+
+  const vehicle_number =
+    document.getElementById("vehicle_number").value.trim();
+
+  const owner_phone =
+    document.getElementById("owner_phone").value.trim();
+
+  const emergency_phone =
+    document.getElementById("emergency_phone").value.trim();
+
+  const vehicle_type =
+    document.getElementById("vehicle_type").value;
+
+  const message =
+    document.getElementById("activationMessage");
+
+  if(
+    !owner_name ||
+    !vehicle_model ||
+    !vehicle_number ||
+    !owner_phone ||
+    !emergency_phone ||
+    !vehicle_type
+  ){
+
+    message.classList.remove("hidden");
+
+    message.className = "status error";
+
+    message.innerText =
+      "Please fill all details.";
+
+    return;
+  }
+
+  message.classList.remove("hidden");
+
+  message.className = "status";
+
+  message.innerText =
+    "Activating QR... Please wait.";
+
+  const payload = {
+
+    qr_id: QR_ID,
+
+    owner_name: owner_name,
+
+    vehicle_model: vehicle_model,
+
+    vehicle_number: vehicle_number,
+
+    owner_phone: owner_phone,
+
+    emergency_phone: emergency_phone,
+
+    vehicle_type: vehicle_type
+
+  };
+
+
+  try{
+
+    const response = await fetch(
+      API_URL,
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"text/plain;charset=utf-8"
+        },
+        body:JSON.stringify(payload)
+      }
+    );
+
+    const result = await response.json();
+
+    console.log("ACTIVATION RESULT:", result);
+
+    if(!result.success){
+
+      throw new Error(
+        result.message || "Activation failed"
+      );
+
+    }
+
+    message.className = "status success";
+
+    message.innerText =
+      "✓ QR activated successfully!";
+
+    setTimeout(function(){
+
+      location.reload();
+
+    },1500);
+
+
+  }catch(error){
+
+    console.error(error);
+
+    message.className = "status error";
+
+    message.innerText =
+      "Activation failed: " + error.message;
+
+  }
+
+}
+
+
+/* START */
 checkQR();
 
 </script>
