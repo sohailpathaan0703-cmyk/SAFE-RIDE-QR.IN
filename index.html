@@ -1,102 +1,270 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAFE RIDE QR</title>
+
+<title>Safe Ride QR</title>
 
 <style>
-body{
+*{
+  box-sizing:border-box;
   margin:0;
+  padding:0;
   font-family:Arial,sans-serif;
-  background:#f4f7f9;
-  color:#222;
 }
+
+body{
+  background:#f4f7fb;
+  color:#172033;
+}
+
+header{
+  background:#0b5ed7;
+  color:white;
+  padding:18px;
+  text-align:center;
+}
+
+header h1{
+  font-size:25px;
+}
+
+header p{
+  margin-top:5px;
+  opacity:.9;
+}
+
 .container{
-  max-width:500px;
-  margin:auto;
+  max-width:600px;
+  margin:30px auto;
   padding:20px;
 }
+
 .card{
   background:white;
-  padding:22px;
-  margin-top:20px;
-  border-radius:15px;
-  box-shadow:0 4px 15px rgba(0,0,0,.08);
+  border-radius:18px;
+  padding:25px;
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
 }
-h1{
-  text-align:center;
-  color:#087f5b;
-}
+
 h2{
-  margin-top:0;
+  margin-bottom:20px;
+  color:#0b5ed7;
 }
+
+h3{
+  margin:15px 0 8px;
+}
+
 label{
   display:block;
-  margin-top:12px;
+  margin-top:14px;
+  margin-bottom:6px;
   font-weight:bold;
 }
+
 input,select{
   width:100%;
-  box-sizing:border-box;
-  padding:12px;
-  margin-top:6px;
+  padding:13px;
   border:1px solid #ccc;
-  border-radius:8px;
+  border-radius:10px;
   font-size:16px;
 }
+
 button{
   width:100%;
-  padding:13px;
-  margin-top:18px;
-  border:0;
-  border-radius:8px;
-  background:#087f5b;
-  color:white;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  margin-top:20px;
   font-size:16px;
   font-weight:bold;
+  cursor:pointer;
 }
-.call{
-  display:block;
-  text-align:center;
-  text-decoration:none;
-  padding:13px;
-  margin-top:12px;
-  border-radius:8px;
-  background:#087f5b;
+
+.primary{
+  background:#0b5ed7;
   color:white;
-  font-weight:bold;
 }
-.error{
-  color:#c92a2a;
-  text-align:center;
+
+.owner{
+  background:#198754;
+  color:white;
 }
-.success{
-  color:#087f5b;
-  text-align:center;
+
+.emergency{
+  background:#dc3545;
+  color:white;
 }
+
 .info{
-  margin:10px 0;
-  padding:10px;
-  background:#f1f3f5;
-  border-radius:8px;
+  background:#eef5ff;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:15px;
+}
+
+.row{
+  padding:12px 0;
+  border-bottom:1px solid #eee;
+}
+
+.row strong{
+  display:block;
+  color:#555;
+  font-size:14px;
+  margin-bottom:4px;
+}
+
+.status{
+  text-align:center;
+  padding:20px;
+  font-size:18px;
+}
+
+.error{
+  color:#dc3545;
+  background:#fff0f0;
+  padding:15px;
+  border-radius:10px;
+}
+
+.success{
+  color:#198754;
+  background:#edfff5;
+  padding:15px;
+  border-radius:10px;
+}
+
+.hidden{
+  display:none;
 }
 </style>
 </head>
 
 <body>
 
+<header>
+  <h1>SAFE RIDE QR</h1>
+  <p>Vehicle Safety & Emergency Contact</p>
+</header>
+
 <div class="container">
 
-<h1>SAFE RIDE QR</h1>
+  <!-- CHECKING -->
+  <div id="checking" class="card status">
+    Checking QR status...
+  </div>
 
-<div id="app" class="card">
-  <p style="text-align:center;">Checking QR status...</p>
-</div>
+  <!-- ERROR -->
+  <div id="errorBox" class="card hidden">
+    <div class="error" id="errorText"></div>
+  </div>
+
+  <!-- ACTIVATION FORM -->
+  <div id="activationBox" class="card hidden">
+
+    <h2>Activate Your QR</h2>
+
+    <div class="info">
+      QR ID: <strong id="qrDisplay"></strong>
+    </div>
+
+    <label>Owner Name</label>
+    <input id="owner_name" type="text" placeholder="Enter owner name">
+
+    <label>Vehicle Model</label>
+    <input id="vehicle_model" type="text" placeholder="Enter vehicle model">
+
+    <label>Vehicle Number</label>
+    <input id="vehicle_number" type="text" placeholder="Enter vehicle number">
+
+    <label>Vehicle Type</label>
+    <select id="vehicle_type">
+      <option value="">Select vehicle type</option>
+      <option value="Bike">Bike</option>
+      <option value="Scooter">Scooter</option>
+      <option value="Car">Car</option>
+      <option value="Auto">Auto</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label>Owner Phone</label>
+    <input id="owner_phone" type="tel" placeholder="Enter owner phone">
+
+    <label>Emergency Phone</label>
+    <input id="emergency_phone" type="tel" placeholder="Enter emergency phone">
+
+    <button class="primary" onclick="activateQR()">
+      Activate QR
+    </button>
+
+    <div id="activationMessage"></div>
+
+  </div>
+
+  <!-- VEHICLE PROFILE -->
+  <div id="profileBox" class="card hidden">
+
+    <h2>Vehicle Information</h2>
+
+    <div class="success">
+      ✓ QR Activated Successfully
+    </div>
+
+    <div class="row">
+      <strong>QR ID</strong>
+      <span id="p_qr"></span>
+    </div>
+
+    <div class="row">
+      <strong>Owner Name</strong>
+      <span id="p_owner"></span>
+    </div>
+
+    <div class="row">
+      <strong>Vehicle Model</strong>
+      <span id="p_model"></span>
+    </div>
+
+    <div class="row">
+      <strong>Vehicle Number</strong>
+      <span id="p_number"></span>
+    </div>
+
+    <div class="row">
+      <strong>Vehicle Type</strong>
+      <span id="p_type"></span>
+    </div>
+
+    <div class="row">
+      <strong>Owner Phone</strong>
+      <span id="p_owner_phone"></span>
+    </div>
+
+    <div class="row">
+      <strong>Emergency Phone</strong>
+      <span id="p_emergency_phone"></span>
+    </div>
+
+    <button id="ownerCall" class="owner">
+      📞 Call Owner
+    </button>
+
+    <button id="emergencyCall" class="emergency">
+      🚨 Call Emergency Contact
+    </button>
+
+  </div>
 
 </div>
 
 <script>
+
+/* ==============================
+   SUPABASE SETTINGS
+================================ */
 
 const SUPABASE_URL =
 "https://kzzbinbvtzrglhbkwbtv.supabase.co";
@@ -105,328 +273,311 @@ const SUPABASE_KEY =
 "sb_publishable_yxmdNnf4zehNaL-J1dv-CA_Imzdt6Aw";
 
 
-function supabaseFetch(path, options = {}) {
-
-  return fetch(SUPABASE_URL + path, {
-
-    ...options,
-
-    headers: {
-      "apikey": SUPABASE_KEY,
-      "Content-Type": "application/json",
-      ...(options.headers || {})
-    }
-
-  });
-
-}
-
+/* ==============================
+   QR ID
+================================ */
 
 const params = new URLSearchParams(window.location.search);
+
 const qrId = params.get("id");
 
-const app = document.getElementById("app");
+
+/* ==============================
+   ELEMENTS
+================================ */
+
+const checking = document.getElementById("checking");
+const errorBox = document.getElementById("errorBox");
+const errorText = document.getElementById("errorText");
+const activationBox = document.getElementById("activationBox");
+const profileBox = document.getElementById("profileBox");
+
+document.getElementById("qrDisplay").textContent = qrId || "Not Found";
 
 
-if (!qrId) {
+/* ==============================
+   SUPABASE REQUEST
+================================ */
 
-  app.innerHTML = `
-    <h2>Invalid QR</h2>
-    <p class="error">
-      QR ID not found.
-    </p>
-  `;
+async function supabaseRequest(url, options = {}) {
 
-} else {
+  const response = await fetch(
+    SUPABASE_URL + url,
+    {
+      ...options,
 
-  checkQR();
+      headers:{
+        "apikey": SUPABASE_KEY,
+        "Content-Type":"application/json",
+        ...(options.headers || {})
+      }
+    }
+  );
 
+  const text = await response.text();
+
+  let data;
+
+  try{
+    data = text ? JSON.parse(text) : null;
+  }catch{
+    data = text;
+  }
+
+  if(!response.ok){
+    throw new Error(
+      "HTTP " + response.status + ": " +
+      (data?.message || data?.error || text || "Request failed")
+    );
+  }
+
+  return data;
 }
 
 
-async function checkQR() {
+/* ==============================
+   CHECK QR
+================================ */
 
-  try {
+async function checkQR(){
 
-    const response = await supabaseFetch(
-      `/rest/v1/Vehicles?qr_id=eq.${encodeURIComponent(qrId)}&select=*`
+  if(!qrId){
+
+    checking.classList.add("hidden");
+
+    errorBox.classList.remove("hidden");
+
+    errorText.textContent =
+      "QR ID not found. Please scan a valid Safe Ride QR.";
+
+    return;
+  }
+
+  try{
+
+    const data = await supabaseRequest(
+      "/rest/v1/Vehicles" +
+      "?qr_id=eq." +
+      encodeURIComponent(qrId) +
+      "&select=*"
     );
 
-    if (!response.ok) {
+    if(!data || data.length === 0){
 
       throw new Error(
-        "HTTP " + response.status + ": " +
-        await response.text()
+        "QR ID " + qrId + " was not found."
       );
-
-    }
-
-    const data = await response.json();
-
-    if (!data.length) {
-
-      app.innerHTML = `
-        <h2>QR Not Found</h2>
-        <p class="error">
-          This QR code is not registered.
-        </p>
-      `;
-
-      return;
-
     }
 
     const vehicle = data[0];
 
-    if (vehicle.Activated === true) {
+    checking.classList.add("hidden");
+
+    if(vehicle.Activated === true){
 
       showProfile(vehicle);
 
-    } else {
+    }else{
 
-      showActivationForm();
+      activationBox.classList.remove("hidden");
 
     }
 
-  } catch (error) {
+  }catch(error){
 
-    app.innerHTML = `
-      <h2>QR Check Failed</h2>
-      <p class="error">
-        ${escapeHTML(error.toString())}
-      </p>
-    `;
+    checking.classList.add("hidden");
+
+    errorBox.classList.remove("hidden");
+
+    errorText.textContent =
+      "QR check failed: " + error.message;
 
   }
 
 }
 
 
-function showActivationForm() {
+/* ==============================
+   ACTIVATE QR
+================================ */
 
-  app.innerHTML = `
-
-    <h2>Activate Your QR</h2>
-
-    <p>
-      Please enter the vehicle owner's information.
-    </p>
-
-    <label>Owner Name</label>
-    <input id="ownerName" type="text" placeholder="Owner Name">
-
-    <label>Vehicle Model</label>
-    <input id="vehicleModel" type="text" placeholder="Vehicle Model">
-
-    <label>Vehicle Number</label>
-    <input id="vehicleNumber" type="text" placeholder="Vehicle Number">
-
-    <label>Vehicle Type</label>
-    <select id="vehicleType">
-      <option value="">Select Vehicle Type</option>
-      <option>Car</option>
-      <option>Bike</option>
-      <option>Scooter</option>
-      <option>Auto</option>
-      <option>Other</option>
-    </select>
-
-    <label>Owner Phone</label>
-    <input id="ownerPhone" type="tel" placeholder="Owner Phone">
-
-    <label>Emergency Phone</label>
-    <input id="emergencyPhone" type="tel" placeholder="Emergency Phone">
-
-    <button onclick="activateQR()">
-      Activate QR
-    </button>
-
-    <div id="message"></div>
-  `;
-}
-
-
-async function activateQR() {
+async function activateQR(){
 
   const ownerName =
-    document.getElementById("ownerName").value.trim();
+    document.getElementById("owner_name").value.trim();
 
   const vehicleModel =
-    document.getElementById("vehicleModel").value.trim();
+    document.getElementById("vehicle_model").value.trim();
 
   const vehicleNumber =
-    document.getElementById("vehicleNumber").value.trim();
+    document.getElementById("vehicle_number").value.trim();
 
   const vehicleType =
-    document.getElementById("vehicleType").value.trim();
+    document.getElementById("vehicle_type").value;
 
   const ownerPhone =
-    document.getElementById("ownerPhone").value.trim();
+    document.getElementById("owner_phone").value.trim();
 
   const emergencyPhone =
-    document.getElementById("emergencyPhone").value.trim();
+    document.getElementById("emergency_phone").value.trim();
 
   const message =
-    document.getElementById("message");
+    document.getElementById("activationMessage");
 
 
-  if (
+  if(
     !ownerName ||
     !vehicleModel ||
     !vehicleNumber ||
     !vehicleType ||
     !ownerPhone ||
     !emergencyPhone
-  ) {
+  ){
 
     message.innerHTML =
-      `<p class="error">Please fill all fields.</p>`;
+      '<div class="error">Please fill all fields.</div>';
 
     return;
-
   }
 
 
   message.innerHTML =
-    `<p>Activating QR...</p>`;
+    '<div class="info">Activating QR...</div>';
 
 
-  try {
+  try{
 
-    const response = await supabaseFetch(
-      `/rest/v1/Vehicles?qr_id=eq.${encodeURIComponent(qrId)}`,
+    const result = await supabaseRequest(
+      "/rest/v1/Vehicles?qr_id=eq." +
+      encodeURIComponent(qrId),
+
       {
-        method: "PATCH",
+        method:"PATCH",
 
-        headers: {
-          "Prefer": "return=representation"
+        headers:{
+          "Prefer":"return=representation"
         },
 
-        body: JSON.stringify({
+        body:JSON.stringify({
 
           Owner_name: ownerName,
+
           Vehicle_model: vehicleModel,
+
           Vehicle_number: vehicleNumber,
-          Vehicle_type: vehicleType,
+
           Owner_phone: ownerPhone,
+
           Emergency_phone: emergencyPhone,
+
+          Vehicle_type: vehicleType,
+
           Activated: true
 
         })
-
       }
     );
 
 
-    if (!response.ok) {
+    if(!result || result.length === 0){
 
       throw new Error(
-        "HTTP " + response.status + ": " +
-        await response.text()
+        "QR activation failed. No database row updated."
       );
 
     }
 
 
-    const updatedData = await response.json();
+    message.innerHTML =
+      '<div class="success">✓ QR Activated Successfully</div>';
 
-    if (updatedData.length) {
 
-      showProfile(updatedData[0]);
+    setTimeout(function(){
 
-    } else {
+      showProfile(result[0]);
 
-      await checkQR();
+    },800);
 
-    }
 
-  } catch (error) {
+  }catch(error){
 
-    message.innerHTML = `
-      <p class="error">
-        Activation failed:<br>
-        ${escapeHTML(error.toString())}
-      </p>
-    `;
+    message.innerHTML =
+      '<div class="error">' +
+      "Activation failed: " +
+      error.message +
+      "</div>";
 
   }
 
 }
 
 
-function showProfile(vehicle) {
+/* ==============================
+   SHOW PROFILE
+================================ */
 
-  app.innerHTML = `
+function showProfile(vehicle){
 
-    <h2>Vehicle Information</h2>
+  activationBox.classList.add("hidden");
 
-    <div class="info">
-      <strong>Owner Name</strong><br>
-      ${escapeHTML(vehicle.Owner_name || "-")}
-    </div>
+  profileBox.classList.remove("hidden");
 
-    <div class="info">
-      <strong>Vehicle Model</strong><br>
-      ${escapeHTML(vehicle.Vehicle_model || "-")}
-    </div>
 
-    <div class="info">
-      <strong>Vehicle Number</strong><br>
-      ${escapeHTML(vehicle.Vehicle_number || "-")}
-    </div>
+  document.getElementById("p_qr").textContent =
+    vehicle.qr_id || "";
 
-    <div class="info">
-      <strong>Vehicle Type</strong><br>
-      ${escapeHTML(vehicle.Vehicle_type || "-")}
-    </div>
+  document.getElementById("p_owner").textContent =
+    vehicle.Owner_name || "";
 
-    <div class="info">
-      <strong>Owner Phone</strong><br>
-      ${escapeHTML(vehicle.Owner_phone || "-")}
-    </div>
+  document.getElementById("p_model").textContent =
+    vehicle.Vehicle_model || "";
 
-    <div class="info">
-      <strong>Emergency Phone</strong><br>
-      ${escapeHTML(vehicle.Emergency_phone || "-")}
-    </div>
+  document.getElementById("p_number").textContent =
+    vehicle.Vehicle_number || "";
 
-    ${
-      vehicle.Owner_phone
-      ?
-      `<a class="call"
-         href="tel:${encodeURIComponent(vehicle.Owner_phone)}">
-         📞 Call Owner
-       </a>`
-      :
-      ""
-    }
+  document.getElementById("p_type").textContent =
+    vehicle.Vehicle_type || "";
 
-    ${
-      vehicle.Emergency_phone
-      ?
-      `<a class="call"
-         href="tel:${encodeURIComponent(vehicle.Emergency_phone)}">
-         🚨 Call Emergency Contact
-       </a>`
-      :
-      ""
-    }
+  document.getElementById("p_owner_phone").textContent =
+    vehicle.Owner_phone || "";
 
-  `;
+  document.getElementById("p_emergency_phone").textContent =
+    vehicle.Emergency_phone || "";
+
+
+  document.getElementById("ownerCall").onclick =
+    function(){
+
+      if(vehicle.Owner_phone){
+
+        window.location.href =
+          "tel:" + vehicle.Owner_phone;
+
+      }
+
+    };
+
+
+  document.getElementById("emergencyCall").onclick =
+    function(){
+
+      if(vehicle.Emergency_phone){
+
+        window.location.href =
+          "tel:" + vehicle.Emergency_phone;
+
+      }
+
+    };
 
 }
 
 
-function escapeHTML(value) {
+/* ==============================
+   START
+================================ */
 
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
+checkQR();
 
 </script>
 
