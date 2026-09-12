@@ -1,523 +1,846 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAFE RIDE QR</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
+  <title>SAFE RIDE QR</title>
 
-body{
-  background:#f4f7fb;
-  color:#111827;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-header{
-  background:#111827;
-  color:white;
-  padding:18px;
-  text-align:center;
-}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+    }
 
-header h1{
-  font-size:26px;
-}
+    .topbar {
+      background: #111827;
+      color: white;
+      padding: 18px 16px;
+      text-align: center;
+    }
 
-.container{
-  max-width:600px;
-  margin:30px auto;
-  padding:20px;
-}
+    .topbar h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: 1px;
+    }
 
-.card{
-  background:white;
-  border-radius:16px;
-  padding:25px;
-  box-shadow:0 5px 20px rgba(0,0,0,.08);
-}
+    .topbar p {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: #d1d5db;
+    }
 
-h2{
-  margin-bottom:15px;
-}
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: 20px auto;
+      padding: 0 14px 30px;
+    }
 
-p{
-  margin:8px 0;
-  line-height:1.5;
-}
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    }
 
-label{
-  display:block;
-  margin-top:15px;
-  margin-bottom:6px;
-  font-weight:bold;
-}
+    .hidden {
+      display: none !important;
+    }
 
-input,select{
-  width:100%;
-  padding:13px;
-  border:1px solid #d1d5db;
-  border-radius:9px;
-  font-size:16px;
-}
+    h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+    }
 
-button{
-  width:100%;
-  padding:14px;
-  margin-top:18px;
-  border:0;
-  border-radius:10px;
-  background:#111827;
-  color:white;
-  font-size:17px;
-  font-weight:bold;
-  cursor:pointer;
-}
+    .qr-id {
+      background: #f3f4f6;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 15px 0 20px;
+      font-weight: bold;
+    }
 
-button.call{
-  background:#16a34a;
-}
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 7px;
+      font-weight: bold;
+      font-size: 14px;
+    }
 
-button.emergency{
-  background:#dc2626;
-}
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+      background: white;
+      outline: none;
+    }
 
-.status{
-  text-align:center;
-  padding:25px;
-  font-size:18px;
-}
+    input:focus,
+    select:focus {
+      border-color: #111827;
+    }
 
-.error{
-  color:#dc2626;
-  font-weight:bold;
-}
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 11px;
+      padding: 15px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
 
-.success{
-  color:#16a34a;
-  font-weight:bold;
-}
+    .activate-btn {
+      background: #111827;
+      color: white;
+    }
 
-.info{
-  background:#eef6ff;
-  padding:15px;
-  border-radius:10px;
-  margin:15px 0;
-}
+    .call-btn {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-top: 12px;
+    }
 
-.hidden{
-  display:none;
-}
+    .owner-call {
+      background: #16a34a;
+    }
 
-.profile-row{
-  padding:12px 0;
-  border-bottom:1px solid #eee;
-}
+    .emergency-call {
+      background: #dc2626;
+    }
 
-.profile-row strong{
-  display:block;
-  color:#6b7280;
-  font-size:14px;
-  margin-bottom:3px;
-}
-</style>
+    .success {
+      text-align: center;
+      padding: 15px;
+      background: #ecfdf5;
+      color: #166534;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      font-weight: bold;
+    }
+
+    .error {
+      text-align: center;
+      padding: 14px;
+      background: #fef2f2;
+      color: #b91c1c;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px 10px;
+      font-size: 17px;
+      color: #4b5563;
+    }
+
+    .profile-row {
+      padding: 13px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .profile-row:last-child {
+      border-bottom: none;
+    }
+
+    .profile-label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .profile-value {
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .status {
+      display: inline-block;
+      background: #dcfce7;
+      color: #166534;
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .footer {
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+      margin-top: 18px;
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <h1>SAFE RIDE QR</h1>
-  <p>Vehicle Safety & Emergency Contact</p>
-</header>
-
-<div class="container">
-
-  <!-- CHECKING -->
-  <div id="loading" class="card status">
-    Checking QR status...
+  <div class="topbar">
+    <h1>SAFE RIDE QR</h1>
+    <p>Vehicle Safety & Emergency Contact</p>
   </div>
 
-  <!-- ERROR -->
-  <div id="errorBox" class="card status hidden">
-    <div class="error" id="errorText"></div>
+  <div class="container">
+
+    <!-- LOADING -->
+    <div id="loadingCard" class="card">
+      <div class="loading">
+        Checking QR information...
+      </div>
+    </div>
+
+    <!-- ERROR -->
+    <div id="errorCard" class="card hidden">
+      <div class="error" id="errorMessage">
+        Unable to load QR information.
+      </div>
+    </div>
+
+    <!-- ACTIVATION FORM -->
+    <div id="activationCard" class="card hidden">
+
+      <h2>Activate Your Safe Ride QR</h2>
+
+      <div class="qr-id">
+        QR ID: <span id="qrIdText"></span>
+      </div>
+
+      <div id="formError" class="error hidden"></div>
+
+      <form id="activationForm">
+
+        <label>Owner Name</label>
+        <input
+          type="text"
+          id="ownerName"
+          placeholder="Enter owner name"
+          required
+        >
+
+        <label>Vehicle Model</label>
+        <input
+          type="text"
+          id="vehicleModel"
+          placeholder="Example: Honda Activa"
+          required
+        >
+
+        <label>Vehicle Number</label>
+        <input
+          type="text"
+          id="vehicleNumber"
+          placeholder="Example: MH12AB1234"
+          required
+        >
+
+        <label>Owner Phone</label>
+        <input
+          type="tel"
+          id="ownerPhone"
+          placeholder="10 digit mobile number"
+          maxlength="10"
+          required
+        >
+
+        <label>Emergency Phone</label>
+        <input
+          type="tel"
+          id="emergencyPhone"
+          placeholder="Emergency contact number"
+          maxlength="10"
+          required
+        >
+
+        <label>Vehicle Type</label>
+        <select id="vehicleType" required>
+          <option value="">Select Vehicle Type</option>
+          <option value="Bike">Bike</option>
+          <option value="Scooter">Scooter</option>
+          <option value="Car">Car</option>
+          <option value="Auto">Auto</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <button
+          type="submit"
+          class="activate-btn"
+          id="activateButton"
+        >
+          Activate QR
+        </button>
+
+      </form>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="profileCard" class="card hidden">
+
+      <div class="status">
+        ✓ QR ACTIVATED
+      </div>
+
+      <h2>Vehicle Information</h2>
+
+      <div class="qr-id">
+        QR ID: <span id="profileQrId"></span>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">Owner Name</div>
+        <div class="profile-value" id="profileOwner"></div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">Vehicle Model</div>
+        <div class="profile-value" id="profileModel"></div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">Vehicle Number</div>
+        <div class="profile-value" id="profileNumber"></div>
+      </div>
+
+      <div class="profile-row">
+        <div class="profile-label">Vehicle Type</div>
+        <div class="profile-value" id="profileType"></div>
+      </div>
+
+      <a
+        id="ownerCall"
+        class="call-btn owner-call"
+        href="#"
+      >
+        📞 Call Owner
+      </a>
+
+      <a
+        id="emergencyCall"
+        class="call-btn emergency-call"
+        href="#"
+      >
+        🚨 Emergency Contact
+      </a>
+
+    </div>
+
+    <div class="footer">
+      SAFE RIDE QR • Vehicle Safety System
+    </div>
+
   </div>
 
-  <!-- ACTIVATION -->
-  <div id="activationBox" class="card hidden">
-
-    <h2>Activate Your Safe Ride QR</h2>
-
-    <div class="info">
-      <b>QR ID:</b>
-      <span id="qrDisplay"></span>
-    </div>
-
-    <label>Owner Name</label>
-    <input id="owner_name" type="text" placeholder="Enter owner name">
-
-    <label>Vehicle Model</label>
-    <input id="vehicle_model" type="text" placeholder="Example: Honda Activa">
-
-    <label>Vehicle Number</label>
-    <input id="vehicle_number" type="text" placeholder="Example: MH12AB1234">
-
-    <label>Owner Phone</label>
-    <input id="owner_phone" type="tel" placeholder="10 digit mobile number">
-
-    <label>Emergency Phone</label>
-    <input id="emergency_phone" type="tel" placeholder="Emergency contact number">
-
-    <label>Vehicle Type</label>
-    <select id="vehicle_type">
-      <option value="">Select Vehicle Type</option>
-      <option value="Bike">Bike</option>
-      <option value="Scooter">Scooter</option>
-      <option value="Car">Car</option>
-      <option value="Other">Other</option>
-    </select>
-
-    <button onclick="activateQR()">Activate QR</button>
-
-    <div id="activationMessage" class="status hidden"></div>
-
-  </div>
-
-  <!-- PROFILE -->
-  <div id="profileBox" class="card hidden">
-
-    <h2>🚗 Safe Ride Vehicle</h2>
-
-    <div class="success" style="margin-bottom:15px;">
-      ✓ QR Activated
-    </div>
-
-    <div class="profile-row">
-      <strong>Owner Name</strong>
-      <span id="p_owner"></span>
-    </div>
-
-    <div class="profile-row">
-      <strong>Vehicle Model</strong>
-      <span id="p_model"></span>
-    </div>
-
-    <div class="profile-row">
-      <strong>Vehicle Number</strong>
-      <span id="p_number"></span>
-    </div>
-
-    <div class="profile-row">
-      <strong>Vehicle Type</strong>
-      <span id="p_type"></span>
-    </div>
-
-    <button class="call" id="ownerCall">
-      📞 Call Vehicle Owner
-    </button>
-
-    <button class="emergency" id="emergencyCall">
-      🚨 Call Emergency Contact
-    </button>
-
-  </div>
-
-</div>
 
 <script>
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbzLHzdUvfiBJIYN3hIykz_oZDi9mRdijn4dCIRotzbnfyNfxtc4uF7fsFrTzeoeefbBpw/exec";
+  /* ================================
+     GOOGLE APPS SCRIPT URL
+     ================================ */
 
-let QR_ID = "";
-
-
-/* GET QR ID FROM URL */
-function getQRId(){
-
-  const params = new URLSearchParams(window.location.search);
-
-  return params.get("id");
-
-}
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbzLHzdUvfiBJIYN3hIykz_oZDi9mRdijn4dCIRotzbnfyNfxtc4uF7fsFrTzeoeefbBpw/exec";
 
 
-/* SHOW ERROR */
-function showError(message){
+  /* ================================
+     GET QR ID FROM URL
+     ================================ */
 
-  document.getElementById("loading").classList.add("hidden");
+  const urlParams = new URLSearchParams(window.location.search);
 
-  document.getElementById("activationBox").classList.add("hidden");
-
-  document.getElementById("profileBox").classList.add("hidden");
-
-  document.getElementById("errorBox").classList.remove("hidden");
-
-  document.getElementById("errorText").innerText = message;
-
-}
+  const QR_ID =
+    (urlParams.get("id") || "").trim().toUpperCase();
 
 
-/* CHECK QR */
-async function checkQR(){
+  /* ================================
+     ELEMENTS
+     ================================ */
 
-  QR_ID = getQRId();
+  const loadingCard = document.getElementById("loadingCard");
+  const errorCard = document.getElementById("errorCard");
+  const activationCard = document.getElementById("activationCard");
+  const profileCard = document.getElementById("profileCard");
 
-  if(!QR_ID){
+  const errorMessage = document.getElementById("errorMessage");
+  const formError = document.getElementById("formError");
 
-    showError("QR ID not found. Please scan a valid Safe Ride QR.");
+  const qrIdText = document.getElementById("qrIdText");
 
-    return;
+  const activationForm =
+    document.getElementById("activationForm");
+
+  const activateButton =
+    document.getElementById("activateButton");
+
+
+  /* ================================
+     HIDE ALL MAIN CARDS
+     ================================ */
+
+  function hideAllCards() {
+
+    loadingCard.classList.add("hidden");
+    errorCard.classList.add("hidden");
+    activationCard.classList.add("hidden");
+    profileCard.classList.add("hidden");
+
   }
 
-  document.getElementById("qrDisplay").innerText = QR_ID;
 
-  try{
+  /* ================================
+     CHECK ACTIVATED VALUE
+     ================================ */
 
-    const response = await fetch(
-      API_URL + "?id=" + encodeURIComponent(QR_ID),
-      {
-        method:"GET",
-        cache:"no-store"
-      }
-    );
+  function isActivated(value) {
 
-    if(!response.ok){
-      throw new Error("HTTP " + response.status);
+    if (value === true) {
+      return true;
     }
 
-    const result = await response.json();
+    if (value === 1) {
+      return true;
+    }
 
-    console.log("API RESULT:", result);
+    const text =
+      String(value || "")
+        .trim()
+        .toLowerCase();
 
-    if(!result.success){
+    return (
+      text === "true" ||
+      text === "1" ||
+      text === "yes" ||
+      text === "activated"
+    );
+  }
 
-      showError(result.message || "QR ID not found.");
+
+  /* ================================
+     SHOW ERROR
+     ================================ */
+
+  function showError(message) {
+
+    hideAllCards();
+
+    errorMessage.textContent = message;
+
+    errorCard.classList.remove("hidden");
+  }
+
+
+  /* ================================
+     SHOW ACTIVATION FORM
+     ================================ */
+
+  function showActivationForm(data) {
+
+    hideAllCards();
+
+    qrIdText.textContent =
+      data.qr_id || QR_ID;
+
+    activationCard.classList.remove("hidden");
+  }
+
+
+  /* ================================
+     SHOW VEHICLE PROFILE
+     ================================ */
+
+  function showProfile(data) {
+
+    hideAllCards();
+
+    document.getElementById("profileQrId").textContent =
+      data.qr_id || QR_ID;
+
+    document.getElementById("profileOwner").textContent =
+      data.owner_name || "Not available";
+
+    document.getElementById("profileModel").textContent =
+      data.vehicle_model || "Not available";
+
+    document.getElementById("profileNumber").textContent =
+      data.vehicle_number || "Not available";
+
+    document.getElementById("profileType").textContent =
+      data.vehicle_type || "Not available";
+
+
+    /* Owner phone */
+
+    const ownerPhone =
+      String(data.owner_phone || "")
+        .replace(/\D/g, "");
+
+    const ownerCall =
+      document.getElementById("ownerCall");
+
+    if (ownerPhone.length >= 10) {
+
+      ownerCall.href =
+        "tel:" + ownerPhone;
+
+      ownerCall.classList.remove("hidden");
+
+    } else {
+
+      ownerCall.classList.add("hidden");
+
+    }
+
+
+    /* Emergency phone */
+
+    const emergencyPhone =
+      String(data.emergency_phone || "")
+        .replace(/\D/g, "");
+
+    const emergencyCall =
+      document.getElementById("emergencyCall");
+
+    if (emergencyPhone.length >= 10) {
+
+      emergencyCall.href =
+        "tel:" + emergencyPhone;
+
+      emergencyCall.classList.remove("hidden");
+
+    } else {
+
+      emergencyCall.classList.add("hidden");
+
+    }
+
+
+    profileCard.classList.remove("hidden");
+  }
+
+
+  /* ================================
+     LOAD QR DATA
+     ================================ */
+
+  async function loadQR() {
+
+    if (!QR_ID) {
+
+      showError(
+        "QR ID missing. Please scan a valid Safe Ride QR."
+      );
 
       return;
     }
 
-    const data = result.data;
 
-    document.getElementById("loading").classList.add("hidden");
+    try {
 
-    /*
-      Google Sheet may return TRUE as boolean
-      or "TRUE" as text.
-    */
+      const requestUrl =
+        API_URL +
+        "?id=" +
+        encodeURIComponent(QR_ID) +
+        "&t=" +
+        Date.now();
 
-    const activated =
-      data.activated === true ||
-      String(data.activated).toUpperCase() === "TRUE";
 
-    if(activated){
+      const response =
+        await fetch(requestUrl, {
+          method: "GET",
+          cache: "no-store"
+        });
 
-      showProfile(data);
 
-    }else{
+      if (!response.ok) {
 
-      document
-        .getElementById("activationBox")
-        .classList.remove("hidden");
+        throw new Error(
+          "Server response error"
+        );
+      }
+
+
+      const result =
+        await response.json();
+
+
+      console.log(
+        "QR API RESPONSE:",
+        result
+      );
+
+
+      if (!result.success) {
+
+        showError(
+          result.message ||
+          "QR information not found."
+        );
+
+        return;
+      }
+
+
+      const data =
+        result.data || {};
+
+
+      /* IMPORTANT:
+         Check activated status correctly
+      */
+
+      if (isActivated(data.activated)) {
+
+        showProfile(data);
+
+      } else {
+
+        showActivationForm(data);
+
+      }
 
     }
 
-  }catch(error){
+    catch (error) {
 
-    console.error(error);
+      console.error(
+        "LOAD ERROR:",
+        error
+      );
 
-    showError(
-      "QR check failed: " + error.message
-    );
-
-  }
-
-}
-
-
-/* SHOW PROFILE */
-function showProfile(data){
-
-  document
-    .getElementById("profileBox")
-    .classList.remove("hidden");
-
-  document.getElementById("p_owner").innerText =
-    data.owner_name || "-";
-
-  document.getElementById("p_model").innerText =
-    data.vehicle_model || "-";
-
-  document.getElementById("p_number").innerText =
-    data.vehicle_number || "-";
-
-  document.getElementById("p_type").innerText =
-    data.vehicle_type || "-";
-
-  const ownerPhone = data.owner_phone || "";
-  const emergencyPhone = data.emergency_phone || "";
-
-  document.getElementById("ownerCall").onclick =
-    function(){
-
-      if(ownerPhone){
-
-        window.location.href =
-          "tel:" + ownerPhone;
-
-      }else{
-
-        alert("Owner phone number not available.");
-
-      }
-
-    };
-
-  document.getElementById("emergencyCall").onclick =
-    function(){
-
-      if(emergencyPhone){
-
-        window.location.href =
-          "tel:" + emergencyPhone;
-
-      }else{
-
-        alert("Emergency phone number not available.");
-
-      }
-
-    };
-
-}
-
-
-/* ACTIVATE QR */
-async function activateQR(){
-
-  const owner_name =
-    document.getElementById("owner_name").value.trim();
-
-  const vehicle_model =
-    document.getElementById("vehicle_model").value.trim();
-
-  const vehicle_number =
-    document.getElementById("vehicle_number").value.trim();
-
-  const owner_phone =
-    document.getElementById("owner_phone").value.trim();
-
-  const emergency_phone =
-    document.getElementById("emergency_phone").value.trim();
-
-  const vehicle_type =
-    document.getElementById("vehicle_type").value;
-
-  const message =
-    document.getElementById("activationMessage");
-
-  if(
-    !owner_name ||
-    !vehicle_model ||
-    !vehicle_number ||
-    !owner_phone ||
-    !emergency_phone ||
-    !vehicle_type
-  ){
-
-    message.classList.remove("hidden");
-
-    message.className = "status error";
-
-    message.innerText =
-      "Please fill all details.";
-
-    return;
-  }
-
-  message.classList.remove("hidden");
-
-  message.className = "status";
-
-  message.innerText =
-    "Activating QR... Please wait.";
-
-  const payload = {
-
-    qr_id: QR_ID,
-
-    owner_name: owner_name,
-
-    vehicle_model: vehicle_model,
-
-    vehicle_number: vehicle_number,
-
-    owner_phone: owner_phone,
-
-    emergency_phone: emergency_phone,
-
-    vehicle_type: vehicle_type
-
-  };
-
-
-  try{
-
-    const response = await fetch(
-      API_URL,
-      {
-        method:"POST",
-        headers:{
-          "Content-Type":"text/plain;charset=utf-8"
-        },
-        body:JSON.stringify(payload)
-      }
-    );
-
-    const result = await response.json();
-
-    console.log("ACTIVATION RESULT:", result);
-
-    if(!result.success){
-
-      throw new Error(
-        result.message || "Activation failed"
+      showError(
+        "Unable to connect to Safe Ride server. Please try again."
       );
 
     }
 
-    message.className = "status success";
-
-    message.innerText =
-      "✓ QR activated successfully!";
-
-    setTimeout(function(){
-
-      location.reload();
-
-    },1500);
-
-
-  }catch(error){
-
-    console.error(error);
-
-    message.className = "status error";
-
-    message.innerText =
-      "Activation failed: " + error.message;
-
   }
 
-}
+
+  /* ================================
+     ACTIVATION FORM
+     ================================ */
+
+  activationForm.addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
 
 
-/* START */
-checkQR();
+      formError.classList.add("hidden");
+
+
+      const ownerName =
+        document.getElementById("ownerName")
+          .value.trim();
+
+      const vehicleModel =
+        document.getElementById("vehicleModel")
+          .value.trim();
+
+      const vehicleNumber =
+        document.getElementById("vehicleNumber")
+          .value.trim()
+          .toUpperCase();
+
+      const ownerPhone =
+        document.getElementById("ownerPhone")
+          .value.trim();
+
+      const emergencyPhone =
+        document.getElementById("emergencyPhone")
+          .value.trim();
+
+      const vehicleType =
+        document.getElementById("vehicleType")
+          .value;
+
+
+      /* Phone validation */
+
+      if (
+        !/^\d{10}$/.test(ownerPhone)
+      ) {
+
+        formError.textContent =
+          "Please enter a valid 10 digit owner phone number.";
+
+        formError.classList.remove("hidden");
+
+        return;
+      }
+
+
+      if (
+        !/^\d{10}$/.test(emergencyPhone)
+      ) {
+
+        formError.textContent =
+          "Please enter a valid 10 digit emergency phone number.";
+
+        formError.classList.remove("hidden");
+
+        return;
+      }
+
+
+      /* Disable button */
+
+      activateButton.disabled = true;
+
+      activateButton.textContent =
+        "Activating...";
+
+
+      const payload = {
+
+        qr_id: QR_ID,
+
+        owner_name: ownerName,
+
+        vehicle_model: vehicleModel,
+
+        vehicle_number: vehicleNumber,
+
+        owner_phone: ownerPhone,
+
+        emergency_phone: emergencyPhone,
+
+        vehicle_type: vehicleType,
+
+        activated: true
+
+      };
+
+
+      try {
+
+        const response =
+          await fetch(
+            API_URL,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "text/plain;charset=utf-8"
+              },
+
+              body:
+                JSON.stringify(payload)
+            }
+          );
+
+
+        const result =
+          await response.json();
+
+
+        console.log(
+          "ACTIVATION RESPONSE:",
+          result
+        );
+
+
+        if (!result.success) {
+
+          throw new Error(
+            result.message ||
+            "Activation failed."
+          );
+        }
+
+
+        /*
+          IMPORTANT FIX:
+
+          Activation successful hone ke baad
+          page reload nahi karenge.
+
+          Directly profile show karenge.
+        */
+
+        const activatedData = {
+
+          qr_id: QR_ID,
+
+          owner_name: ownerName,
+
+          vehicle_model: vehicleModel,
+
+          vehicle_number: vehicleNumber,
+
+          owner_phone: ownerPhone,
+
+          emergency_phone: emergencyPhone,
+
+          vehicle_type: vehicleType,
+
+          activated: true
+
+        };
+
+
+        showProfile(activatedData);
+
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "ACTIVATION ERROR:",
+          error
+        );
+
+
+        formError.textContent =
+          error.message ||
+          "Activation failed. Please try again.";
+
+        formError.classList.remove(
+          "hidden"
+        );
+
+
+        activateButton.disabled =
+          false;
+
+        activateButton.textContent =
+          "Activate QR";
+
+      }
+
+    }
+  );
+
+
+  /* ================================
+     START
+     ================================ */
+
+  loadQR();
 
 </script>
 
